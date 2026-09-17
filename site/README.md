@@ -37,11 +37,16 @@ point at the wrong place.
 
 ## What is in assets
 
-- `hero-scrub.mp4` the scroll film, re-encoded with a keyframe every 8 frames,
-  which is what makes scrubbing smooth rather than stuttery
-- `hero-poster.jpg` the first frame, shown while the film streams in
-- `hero-ending.jpg` the resting frame, reused as a design image
-- `products/` the eleven jackets, backgrounds removed so they sit on the dark page
-- `brand/` the hardware, packaging and patina photographs
+- `room/` five photographs of the same wardrobe room at five points in its build,
+  cross faded by scroll so the wardrobe assembles itself. The camera never moved
+  between them, which is the whole reason the dissolve reads as one room rather
+  than five.
+- `spin/<jacket>/` each jacket's angles, ordered into a turn and cut out of their
+  studio background. Frame 01 is the front, and it doubles as the card image.
+- `hero-scrub.mp4` and `.webm` the six second film, on the cafe racer's page.
+  Two encodes because Safari needs H.264 and some Chromium builds cannot decode
+  it at all.
+- `hero-ending.jpg` its resting frame, used for the link preview
+- `brand/` the storefront and the packaging photographs
 - `fonts/` Cinzel, Jost and IBM Plex Mono, served from here so the page depends
   on no third party

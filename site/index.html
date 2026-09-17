@@ -154,6 +154,8 @@ a{color:inherit}
    hand. A little more depth buys headroom for a visitor on a bright screen. */
 #b3::before{background:radial-gradient(ellipse 80% 66% at 50% 50%,
   rgba(6,5,4,.78) 0%,rgba(6,5,4,.56) 48%,rgba(6,5,4,0) 78%)}
+#b4::before{background:radial-gradient(ellipse 86% 70% at 50% 50%,
+  rgba(6,5,4,.90) 0%,rgba(6,5,4,.72) 46%,rgba(6,5,4,.28) 72%,rgba(6,5,4,0) 88%)}
 .band .inner{position:relative;max-width:min(1100px,92vw);text-align:center}
 /* the closing beat drops below the rail so it never sits across the garments */
 #b3{place-items:end center;padding-bottom:clamp(28px,7vh,74px)}
@@ -221,23 +223,13 @@ a{color:inherit}
   rgba(6,5,4,0) 0%,rgba(6,5,4,.5) 58%,rgba(6,5,4,.96) 100%)}
 
 .act-room{z-index:2;opacity:0}
-.wardrobe{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.wardrobe .w-line{fill:none;stroke:var(--accent-muted);stroke-width:1.4;opacity:.8;
-  vector-effect:non-scaling-stroke}
-.wardrobe .w-rail{fill:none;stroke:var(--accent);stroke-width:2.6;opacity:.95;
-  vector-effect:non-scaling-stroke;stroke-linecap:round;
-  filter:drop-shadow(0 0 10px rgba(192,138,82,.35))}
+/* The five stages are the same photograph of the same room at five points in its
+   build, stacked and cross faded. The camera never moved between them, so the
+   dissolve reads as the wardrobe assembling rather than as five different rooms. */
+.stageimg{position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;will-change:opacity}
+.stageimg[data-stage="0"]{opacity:1}
 
-.rail-jackets{position:absolute;inset:0;pointer-events:none}
-.act-room::after{content:"";position:absolute;left:9%;right:9%;top:30%;height:36%;
-  pointer-events:none;background:radial-gradient(60% 100% at 50% 0%,
-  rgba(192,138,82,.055),rgba(192,138,82,0) 72%)}
-.rail-jackets .hang{position:absolute;top:30%;transform-origin:50% 0;
-  will-change:transform,opacity;opacity:0}
-.rail-jackets .hang img{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 18px 28px rgba(0,0,0,.62))}
-.rail-jackets .hang .hook{position:absolute;left:50%;top:-13px;width:1.5px;height:16px;
-  background:linear-gradient(180deg,var(--accent),var(--accent-muted));transform:translateX(-50%)}
 
 /* ============================================================
    THE DETAIL VIEW
@@ -307,7 +299,7 @@ a{color:inherit}
 body.detail-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .act-room{opacity:1}
-  .rail-jackets .hang{opacity:1}
+  .stageimg{opacity:1}
   .detail{transition:none}
 }
 
@@ -495,40 +487,44 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
       <div class="street-veil" id="streetVeil"></div>
     </div>
 
-    <!-- ACT 2: inside, where the wardrobe draws itself and then fills -->
+    <!-- ACT 2: inside. Five photographs of the same room, cross faded by scroll,
+         so the wardrobe assembles itself in place. -->
     <div class="act act-room" id="room" aria-hidden="true">
-      <svg class="wardrobe" id="wardrobe" viewBox="0 0 1000 620" preserveAspectRatio="none">
-        <path class="w-line" id="wTop"   d="M90 62 L910 62"/>
-        <path class="w-line" id="wLeft"  d="M90 62 L90 344"/>
-        <path class="w-line" id="wRight" d="M910 62 L910 344"/>
-        <path class="w-line" id="wFloor" d="M90 344 L910 344"/>
-        <path class="w-line" id="wShelf" d="M90 104 L910 104"/>
-        <path class="w-rail" id="wRail"  d="M120 186 L880 186"/>
-      </svg>
-      <div class="rail-jackets" id="railJackets"></div>
+      <div class="stageimg" data-stage="0" style="background-image:url('assets/room/1-empty.jpg')"></div>
+      <div class="stageimg" data-stage="1" style="background-image:url('assets/room/2-posts.jpg')"></div>
+      <div class="stageimg" data-stage="2" style="background-image:url('assets/room/3-rails.jpg')"></div>
+      <div class="stageimg" data-stage="3" style="background-image:url('assets/room/4-fitted.jpg')"></div>
+      <div class="stageimg" data-stage="4" style="background-image:url('assets/room/5-full.jpg')"></div>
     </div>
 
     <div class="scrim" aria-hidden="true"></div>
 
-    <div class="band" id="b1" data-a="0" data-b="0.18">
+    <div class="band" id="b1" data-a="0" data-b="0.16">
       <div class="inner">
         <h2 data-split="word"><span class="vh">Nobody grows into bold.</span><span class="vis" aria-hidden="true">Nobody grows into bold.</span></h2>
         <p class="sub">You walk in and put it on.</p>
       </div>
     </div>
 
-    <div class="band" id="b2" data-a="0.32" data-b="0.52">
+    <div class="band" id="b2" data-a="0.34" data-b="0.52">
       <div class="inner">
-        <h2 data-split="char"><span class="vh">Then the doors open.</span><span class="vis" aria-hidden="true">Then the doors open.</span></h2>
-        <p class="sub">One rail. One mark on every piece.</p>
+        <h2 data-split="char"><span class="vh">Brass, floor to ceiling.</span><span class="vis" aria-hidden="true">Brass, floor to ceiling.</span></h2>
+        <p class="sub">Built in, not bolted on.</p>
       </div>
     </div>
 
-    <div class="band" id="b3" data-a="0.80" data-b="1">
+    <div class="band" id="b3" data-a="0.58" data-b="0.76">
+      <div class="inner">
+        <h2 data-split="word"><span class="vh">Lit from above.</span><span class="vis" aria-hidden="true">Lit from above.</span></h2>
+        <p class="sub">Every piece where you can see it.</p>
+      </div>
+    </div>
+
+    <div class="band" id="b4" data-a="0.81" data-b="1">
       <div class="inner">
         <h2 data-split="word"><span class="vh">Eleven jackets.</span><span class="vis" aria-hidden="true">Eleven jackets.</span></h2>
         <p class="sub">Take your time.</p>
-        <div class="row"><a class="btn btn-solid" href="#range">See the rail</a></div>
+        <div class="row"><a class="btn btn-solid" href="#range">See them all</a></div>
       </div>
     </div>
 
@@ -738,7 +734,7 @@ var smoothstep = function(p,e0,e1){ var t=clamp((p-e0)/(e1-e0),0,1); return t*t*
   RANGE.forEach(function(r,i){
     var slug=r[0], name=r[1], desc=r[2], price=PRICES[slug]?(CURRENCY+' '+PRICES[slug]):'';
     html += '<article class="card rise" data-slug="'+slug+'" tabindex="0" role="button" aria-label="Open '+name+'">'
-         +    '<div class="shot"><img src="assets/products/'+slug+'.webp" alt="'+name+', '+desc.replace(/"/g,'')+'" '
+         +    '<div class="shot"><img src="assets/spin/'+slug+'/01.webp" alt="'+name+', '+desc.replace(/"/g,'')+'" '
          +      (i<3?'':'loading="lazy" ')+'width="1000" height="1000"></div>'
          +    '<div class="meta"><h3>'+name+'</h3><p>'+desc+'</p>'
          +      '<div class="price'+(price?' on':'')+'">'+price+'</div></div>'
@@ -805,95 +801,45 @@ var bands = $$('.band').map(function(el){
 
 var hero = $('#top');
 var street = $('#street'), streetImg = $('#streetImg'), streetVeil = $('#streetVeil');
-var room = $('#room'), railJackets = $('#railJackets');
-var BOX = ['#wTop','#wLeft','#wRight','#wFloor','#wShelf'];
+var room = $('#room');
+var stageEls = $$('.stageimg', room);
 
-/* The wardrobe strokes with non-scaling-stroke, which keeps the line an even
-   hairline however the SVG stretches. The dash pattern is then measured in
-   screen pixels while getTotalLength reports viewBox units, so measure what the
-   screen actually draws or the outline shows before it has been drawn. */
-function screenLength(path){
-  var total = path.getTotalLength(), m = path.getScreenCTM();
-  if(!m || !total) return total || 1;
-  var len = 0, prev = null, n = 48;
-  for(var i=0;i<=n;i++){
-    var q = path.getPointAtLength(total*i/n).matrixTransform(m);
-    if(prev) len += Math.sqrt((q.x-prev.x)*(q.x-prev.x)+(q.y-prev.y)*(q.y-prev.y));
-    prev = q;
-  }
-  return len || total;
-}
-
-/* ---------- hang the rail once ---------- */
-var hangs = [];
-function buildRail(){
-  if(hangs.length) return;
-  var n = RANGE.length, html = '';
-  for(var i=0;i<n;i++){
-    /* pressed together the way a real rail is, so eleven fit and still read */
-    /* the rail runs 120 to 880 of the 1000 wide viewBox, and the svg stretches
-       with preserveAspectRatio none, so those are the percentages to hang within */
-    var L = 12, R = 88, span = R - L;
-    var w = span/(n*0.55), left = L + i*(span-w)/(n-1);
-    html += '<div class="hang" style="left:'+left.toFixed(2)+'%;width:'+w.toFixed(2)+'%;z-index:'+(n-i)+'">'
-         +    '<span class="hook"></span>'
-         +    '<img src="assets/spin/'+RANGE[i][0]+'/01.webp" alt="" loading="lazy">'
-         +  '</div>';
-  }
-  railJackets.innerHTML = html;
-  hangs = $$('.hang', railJackets).map(function(el){ return {el:el, op:-1, tr:''}; });
-}
-
-var lens = null;
-function measureWardrobe(){
-  lens = {};
-  BOX.concat(['#wRail']).forEach(function(sel){
-    var el = $(sel); if(!el) return;
-    var L = screenLength(el);
-    lens[sel] = L;
-    el.style.strokeDasharray = L;
-    el.style.strokeDashoffset = L;
-  });
-}
-
-/* ---------- the three acts, every write delta gated ---------- */
+/* Each stage owns a point on the scroll. Between two neighbouring points that
+   pair cross fades, so at most two images are ever visible and the build reads
+   as one continuous thing. Stage 0 stays fully on underneath them all, which
+   stops any gap showing through during a dissolve. */
+/* every style write is delta gated: the same value is never written twice */
 var lastVal = {};
 function put(el, prop, val, key){
   if(lastVal[key] === val) return;
   lastVal[key] = val;
   el.style[prop] = val;
 }
+
+var STAGE_AT = [0.24, 0.42, 0.56, 0.70, 0.88];
+var lastStageOp = [];
+
+function drawRoom(p){
+  for(var i=0;i<stageEls.length;i++){
+    var op = (i === 0) ? 1 : smoothstep(p, STAGE_AT[i-1], STAGE_AT[i]);
+    var v = op.toFixed(3);
+    if(lastStageOp[i] !== v){ lastStageOp[i] = v; stageEls[i].style.opacity = v; }
+  }
+}
+
 function drawJourney(p){
   /* ACT 1, the street, pushed toward the door */
-  var t1 = clamp(p/0.30, 0, 1);
-  put(streetImg,'transform','scale('+(1+t1*0.55).toFixed(4)+')','si');
-  put(street,'opacity',(1 - smoothstep(p,0.22,0.32)).toFixed(3),'so');
+  var t1 = clamp(p/0.26, 0, 1);
+  put(streetImg,'transform','scale('+(1+t1*0.62).toFixed(4)+')','si');
+  put(street,'opacity',(1 - smoothstep(p,0.16,0.26)).toFixed(3),'so');
   put(streetVeil,'opacity',(0.3+t1*0.7).toFixed(3),'sv');
 
-  /* ACT 2, inside, the wardrobe drawing itself then its rail */
-  put(room,'opacity',smoothstep(p,0.24,0.36).toFixed(3),'ro');
-  if(lens){
-    var box = smoothstep(p,0.28,0.48);
-    for(var i=0;i<BOX.length;i++){
-      var el = $(BOX[i]); if(!el) continue;
-      put(el,'strokeDashoffset',(lens[BOX[i]]*(1-box)).toFixed(1),'d'+i);
-    }
-    var rl = $('#wRail');
-    if(rl) put(rl,'strokeDashoffset',(lens['#wRail']*(1-smoothstep(p,0.44,0.56))).toFixed(1),'dr');
-  }
+  /* ACT 2, inside, the wardrobe building itself */
+  put(room,'opacity',smoothstep(p,0.14,0.24).toFixed(3),'ro');
+  drawRoom(p);
 
   var cueEl = $('#cue');
-  if(cueEl) put(cueEl,'opacity',(1 - smoothstep(p,0.68,0.80)).toFixed(3),'cue');
-
-  /* ACT 3, the jackets arrive on the rail one after another */
-  for(var j=0;j<hangs.length;j++){
-    var a0 = 0.54 + (j/hangs.length)*0.26;
-    var k = smoothstep(p, a0, a0+0.075);
-    var h = hangs[j], op = k.toFixed(3);
-    if(h.op !== op){ h.op = op; h.el.style.opacity = op; }
-    var tr = 'translateY('+((1-k)*-32).toFixed(1)+'px) rotate('+((1-k)*(j%2?3.4:-3.4)).toFixed(2)+'deg)';
-    if(h.tr !== tr){ h.tr = tr; h.el.style.transform = tr; }
-  }
+  if(cueEl) put(cueEl,'opacity',(1 - smoothstep(p,0.72,0.84)).toFixed(3),'cue');
 }
 
 function heroProgress(){
@@ -947,8 +893,12 @@ if('IntersectionObserver' in window){
 var heroInit = false;
 function initHeroOnce(){
   if(heroInit) return; heroInit = true;
-  buildRail(); measureWardrobe();
   loadStart = performance.now();
+  /* the later stages are the heaviest, so warm them before the visitor arrives */
+  ['assets/room/2-posts.jpg','assets/room/3-rails.jpg',
+   'assets/room/4-fitted.jpg','assets/room/5-full.jpg'].forEach(function(u){
+    var im = new Image(); im.src = u;
+  });
 }
 var scrubOn = false;
 function enableScrub(){
@@ -957,6 +907,7 @@ function enableScrub(){
   window.addEventListener('scroll', onScroll, { passive:true });
   bands.forEach(function(b2){ b2.op = -1; b2.k = -1; });
   lastVal = {};
+  lastStageOp = [];
   unpinFinalStates();
   updateCaptions(heroProgress());
   onScroll();
