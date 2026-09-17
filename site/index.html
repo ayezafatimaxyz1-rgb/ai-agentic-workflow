@@ -222,14 +222,32 @@ a{color:inherit}
 .street-veil{position:absolute;inset:0;background:radial-gradient(48% 42% at 52% 56%,
   rgba(6,5,4,0) 0%,rgba(6,5,4,.5) 58%,rgba(6,5,4,.96) 100%)}
 
-.act-room{z-index:2;opacity:0}
-/* The five stages are the same photograph of the same room at five points in its
-   build, stacked and cross faded. The camera never moved between them, so the
-   dissolve reads as the wardrobe assembling rather than as five different rooms. */
+.act-room{z-index:2;opacity:0;will-change:transform,opacity}
+
+/* The five stages are the same room photographed at five points in its build,
+   and every later stage contains everything from the earlier ones. Because the
+   camera never moved, a later stage can be WIPED in over the one below rather
+   than dissolved, and only the new part appears. That is what makes the brass
+   grow out of the floor instead of fading on. The lighting stage is the one
+   exception: light coming up is a change across the whole frame, so that one
+   genuinely is a fade. */
 .stageimg{position:absolute;inset:0;background-size:cover;background-position:center;
-  opacity:0;will-change:opacity}
+  will-change:clip-path,opacity}
+
+/* 0: the room itself, always present underneath */
 .stageimg[data-stage="0"]{opacity:1}
 
+/* 1: the brass posts grow from the floor to the ceiling */
+.stageimg[data-stage="1"]{opacity:1;clip-path:inset(var(--y,100%) 0 0 0)}
+
+/* 2: the rails span outward from the far wall toward you */
+.stageimg[data-stage="2"]{opacity:1;clip-path:inset(0 var(--x,50%) 0 var(--x,50%))}
+
+/* 3: the lights come up, which is a change across the whole frame, so it fades */
+.stageimg[data-stage="3"]{opacity:var(--o,0)}
+
+/* 4: the jackets go up one after another, from the far end of each rail forward */
+.stageimg[data-stage="4"]{opacity:1;clip-path:inset(0 var(--x,50%) 0 var(--x,50%))}
 
 /* ============================================================
    THE DETAIL VIEW
@@ -499,31 +517,31 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 
     <div class="scrim" aria-hidden="true"></div>
 
-    <div class="band" id="b1" data-a="0" data-b="0.16">
+    <div class="band" id="b1" data-a="0" data-b="0.14">
       <div class="inner">
         <h2 data-split="word"><span class="vh">Nobody grows into bold.</span><span class="vis" aria-hidden="true">Nobody grows into bold.</span></h2>
         <p class="sub">You walk in and put it on.</p>
       </div>
     </div>
 
-    <div class="band" id="b2" data-a="0.34" data-b="0.52">
+    <div class="band" id="b2" data-a="0.28" data-b="0.46">
       <div class="inner">
         <h2 data-split="char"><span class="vh">Brass, floor to ceiling.</span><span class="vis" aria-hidden="true">Brass, floor to ceiling.</span></h2>
         <p class="sub">Built in, not bolted on.</p>
       </div>
     </div>
 
-    <div class="band" id="b3" data-a="0.58" data-b="0.76">
+    <div class="band" id="b3" data-a="0.58" data-b="0.74">
       <div class="inner">
         <h2 data-split="word"><span class="vh">Lit from above.</span><span class="vis" aria-hidden="true">Lit from above.</span></h2>
         <p class="sub">Every piece where you can see it.</p>
       </div>
     </div>
 
-    <div class="band" id="b4" data-a="0.81" data-b="1">
+    <div class="band" id="b4" data-a="0.80" data-b="1">
       <div class="inner">
         <h2 data-split="word"><span class="vh">Eleven jackets.</span><span class="vis" aria-hidden="true">Eleven jackets.</span></h2>
-        <p class="sub">Take your time.</p>
+        <p class="sub">Hung one at a time.</p>
         <div class="row"><a class="btn btn-solid" href="#range">See them all</a></div>
       </div>
     </div>
@@ -816,14 +834,43 @@ function put(el, prop, val, key){
   el.style[prop] = val;
 }
 
-var STAGE_AT = [0.24, 0.42, 0.56, 0.70, 0.88];
-var lastStageOp = [];
+/* Where each stage builds, and how. Stage 0 is the room, which falls into place
+   rather than being revealed. */
+var STAGE_BUILD = [
+  null,                 /* 0 the room itself */
+  [0.26, 0.46],         /* 1 brass grows up */
+  [0.46, 0.60],         /* 2 rails span out */
+  [0.60, 0.74],         /* 3 lights come up */
+  [0.76, 0.96]          /* 4 jackets go up one by one */
+];
+var lastR = [];
+
+/* How far open a sideways wipe is, as the inset from each edge.
+   In this one point perspective the centre of the frame is the far END WALL,
+   which carries no fittings and no jackets. A linear wipe therefore spends its
+   first third on bare wall and then rushes everything in at the end. So the
+   first slice of the beat crosses that empty middle quickly, and the rest of it
+   is spent on the part that actually has something to reveal. */
+function wipeInset(r){
+  var half = (r <= 0.15) ? (r/0.15) * 17 : 17 + ((r-0.15)/0.85) * 33;
+  return (50 - half).toFixed(2) + '%';
+}
 
 function drawRoom(p){
-  for(var i=0;i<stageEls.length;i++){
-    var op = (i === 0) ? 1 : smoothstep(p, STAGE_AT[i-1], STAGE_AT[i]);
-    var v = op.toFixed(3);
-    if(lastStageOp[i] !== v){ lastStageOp[i] = v; stageEls[i].style.opacity = v; }
+  for(var i=1;i<stageEls.length;i++){
+    var w = STAGE_BUILD[i];
+    var r = smoothstep(p, w[0], w[1]);
+    var el = stageEls[i], v;
+    if(i === 1){                       /* grows upward out of the floor */
+      v = (100 - r*100).toFixed(2) + '%';
+      if(lastR[i] !== v){ lastR[i] = v; el.style.setProperty('--y', v); }
+    } else if(i === 3){                /* the lights, a straight fade */
+      v = r.toFixed(3);
+      if(lastR[i] !== v){ lastR[i] = v; el.style.setProperty('--o', v); }
+    } else {                           /* wipes outward from the far wall */
+      v = wipeInset(r);
+      if(lastR[i] !== v){ lastR[i] = v; el.style.setProperty('--x', v); }
+    }
   }
 }
 
@@ -834,8 +881,10 @@ function drawJourney(p){
   put(street,'opacity',(1 - smoothstep(p,0.16,0.26)).toFixed(3),'so');
   put(streetVeil,'opacity',(0.3+t1*0.7).toFixed(3),'sv');
 
-  /* ACT 2, inside, the wardrobe building itself */
-  put(room,'opacity',smoothstep(p,0.14,0.24).toFixed(3),'ro');
+  /* ACT 2, the room drops into place, then builds itself */
+  var drop = smoothstep(p, 0.12, 0.26);
+  put(room,'opacity',drop.toFixed(3),'ro');
+  put(room,'transform','translateY(' + ((1-drop) * -16).toFixed(2) + '%)','rt');
   drawRoom(p);
 
   var cueEl = $('#cue');
@@ -907,7 +956,7 @@ function enableScrub(){
   window.addEventListener('scroll', onScroll, { passive:true });
   bands.forEach(function(b2){ b2.op = -1; b2.k = -1; });
   lastVal = {};
-  lastStageOp = [];
+  lastR = [];
   unpinFinalStates();
   updateCaptions(heroProgress());
   onScroll();
