@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VANTOR, built for a bolder you</title>
+<meta name="description" content="Leather jackets cut oversized and finished with one mark. Eleven pieces, genuine leather, made responsibly.">
+<meta name="theme-color" content="#0B0907">
+<!-- DEPLOY STEP: patch og:url and og:image with the live absolute URL before zipping -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="VANTOR, built for a bolder you">
+<meta property="og:description" content="Leather jackets cut oversized and finished with one mark.">
+<meta property="og:url" content="https://vantorworld.com/">
+<meta property="og:image" content="https://vantorworld.com/assets/hero-ending.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0907'/%3E%3Cpath d='M5 7l6 2 5 16 5-16 6-2-11 20z' fill='%23C08A52'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Fonts are served from this folder, so the page depends on no third party */
+@font-face{font-family:'Cinzel';src:url('assets/fonts/cinzel.woff2') format('woff2');
+  font-weight:400 600;font-style:normal;font-display:swap}
+@font-face{font-family:'Jost';src:url('assets/fonts/jost.woff2') format('woff2');
+  font-weight:300 400;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('assets/fonts/plexmono.woff2') format('woff2');
+  font-weight:300;font-style:normal;font-display:swap}
+/* ============================================================
+   VANTOR. Tokens sampled from the brand's own files.
+   ============================================================ */
+:root{
+  --canvas:#0B0907;
+  --canvas-deep:#060504;
+  --panel:#14100C;
+  --panel-hi:#1B1610;
+  --accent:#C08A52;
+  --accent-hover:#E0AE77;
+  --accent-muted:#6A4527;
+  --text-primary:#F2E8DA;
+  --text-secondary:#A79684;
+  --hairline:#241C15;
+  --border-interactive:#4A3826;
+
+  --display:'Cinzel',Georgia,serif;
+  --body:'Jost',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --tshadow:0 1px 2px rgba(5,4,3,.95),0 3px 12px rgba(5,4,3,.78),0 10px 44px rgba(5,4,3,.8);
+
+  --gutter:clamp(16px,5vw,80px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{overflow-x:hidden;overflow-x:clip}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--canvas);color:var(--text-primary);
+  font-family:var(--body);font-weight:300;font-size:clamp(16px,1.05vw,18px);line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--accent);color:#120C06;
+  padding:12px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.skip:focus{left:8px;top:8px}
+
+/* ---------- the fixed environment layer (the tissue V motif) ---------- */
+.env{position:fixed;inset:-10% -10% -10% -10%;z-index:0;pointer-events:none;
+  background-image:var(--tissue);background-size:220px 220px;opacity:.032;
+  animation:envdrift 96s linear infinite;animation-delay:-31s}
+@keyframes envdrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-220px,-220px,0)}}
+.env-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 45% at 22% 12%,rgba(192,138,82,.075) 0%,rgba(192,138,82,0) 70%)}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;
+  gap:clamp(18px,3vw,44px);padding:16px var(--gutter);
+  background:linear-gradient(180deg,rgba(11,9,7,.92) 0%,rgba(11,9,7,.62) 62%,rgba(11,9,7,0) 100%);
+  transition:background .5s var(--ease-soft)}
+.nav a{text-decoration:none}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto}
+.brand svg{width:22px;height:22px;flex:none}
+.brand .wm{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.3em;color:var(--text-primary)}
+.navlinks{display:flex;gap:clamp(16px,2.4vw,32px);font-family:var(--mono);font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--text-secondary)}
+.navlinks a{transition:color .4s var(--ease)}
+.navlinks a:hover{color:var(--accent)}
+@media (max-width:860px){.navlinks{display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  padding:12px 22px;border:1px solid var(--border-interactive);color:var(--text-primary);
+  background:transparent;text-decoration:none;cursor:pointer;position:relative;
+  transition:color .45s var(--ease),border-color .45s var(--ease),background-color .45s var(--ease)}
+.btn:hover{color:#120C06;background:var(--accent);border-color:var(--accent)}
+.btn-solid{background:var(--accent);border-color:var(--accent);color:#120C06}
+.btn-solid:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+@media (pointer:coarse){.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;height:700vh;z-index:1}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--canvas-deep)}
+.poster{position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:opacity 1.1s var(--ease-soft)}
+#hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  will-change:transform;transform:translateZ(0);transition:opacity .9s var(--ease-soft)}
+.stage.video-ready #hero{opacity:1}
+.stage.video-ready .poster{opacity:0}
+.stage.video-failed #hero{display:none}
+.scrim{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 120% 90% at 50% 45%,rgba(9,7,5,0) 34%,rgba(9,7,5,.64) 100%)}
+
+/* the loading ring */
+.ring{position:absolute;left:50%;bottom:46px;transform:translateX(-50%) rotate(-90deg);
+  width:40px;height:40px;color:var(--accent-muted);opacity:.85;transition:opacity .6s var(--ease-soft)}
+.ring circle{transition:stroke-dashoffset .18s linear}
+.stage.video-ready .ring{opacity:0}
+.cue{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--text-secondary);display:flex;flex-direction:column;align-items:center;gap:8px}
+.cue i{display:block;width:1px;height:26px;background:linear-gradient(180deg,var(--accent-muted),transparent);
+  animation:cuepulse 3.4s var(--ease-soft) infinite;animation-delay:-1.1s}
+@keyframes cuepulse{0%,100%{opacity:.35;transform:scaleY(.72)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- the signature: the descending V ---------- */
+.vsig{position:absolute;inset:0;pointer-events:none;z-index:3}
+.vsig svg{width:100%;height:100%;display:block}
+.vsig path{fill:none;stroke:var(--accent-muted);stroke-width:1.15;vector-effect:non-scaling-stroke;
+  stroke-linecap:round;opacity:.75}
+.vsig .point{fill:var(--accent);opacity:0}
+
+/* ---------- caption bands ---------- */
+.band{position:absolute;inset:0;display:grid;place-items:center;
+  padding:0 var(--gutter);opacity:0;pointer-events:none;text-shadow:var(--tshadow);z-index:4}
+.band::before{content:"";position:absolute;inset:-4%;pointer-events:none;
+  opacity:calc(.25 + .75*var(--k,1));
+  background:radial-gradient(ellipse 74% 62% at 50% 50%,rgba(6,5,4,.70) 0%,rgba(6,5,4,.46) 46%,rgba(6,5,4,0) 76%)}
+.band .inner{position:relative;max-width:min(1100px,92vw);text-align:center}
+.band h2{font-family:var(--display);font-weight:400;margin:0;
+  font-size:clamp(30px,6.2vw,76px);line-height:1.08;letter-spacing:.012em}
+.band h2 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.band .sub{margin:22px auto 0;max-width:34ch;font-size:clamp(15px,1.5vw,19px);
+  color:var(--text-secondary);line-height:1.6}
+.band .w{display:inline-block;white-space:pre}
+.band .c{display:inline-block;will-change:transform,opacity}
+
+/* entrance (a) drift-down, band 1: echoes the camera falling */
+#b1 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * -26px))}
+/* entrance (b) grid snap-align, band 2: echoes the zip teeth passing */
+#b2 .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*3.1,1);opacity:var(--kc);
+  transform:translateX(calc((1 - var(--kc)) * var(--jx,0px)))}
+/* entrance (c) blur-to-sharp, band 3: echoes the light beam's bloom clearing */
+#b3 .soft{position:absolute;inset:0;filter:blur(11px);opacity:calc(1 - var(--k,0));pointer-events:none}
+#b3 .sharp{opacity:var(--k,0)}
+/* entrance (e) staged settle, band 4: three arrivals in one band */
+#b4 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * 20px))}
+#b4 .sub{--ks:clamp(0,(var(--k,0) - .60)*3.6,1);opacity:var(--ks);
+  transform:translateY(calc((1 - var(--ks)) * 14px))}
+#b4 .row{--kb:clamp(0,(var(--k,0) - .76)*4.6,1);opacity:var(--kb);
+  transform:translateY(calc((1 - var(--kb)) * 14px));
+  margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;pointer-events:auto}
+.band.live{pointer-events:auto}
+
+/* ---------- static hero (the five gates) ---------- */
+.static-hero{display:none;position:absolute;inset:0;z-index:5;
+  padding:0 var(--gutter);place-items:center;text-align:center}
+.static-hero h1{font-family:var(--display);font-weight:400;margin:0;
+  font-size:clamp(34px,9vw,62px);line-height:1.08;text-shadow:var(--tshadow)}
+.static-hero p{margin:20px auto 0;max-width:30ch;color:var(--text-secondary);text-shadow:var(--tshadow)}
+.static-hero .row{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@media (max-width:720px),
+       (orientation:portrait) and (max-width:1024px),
+       (orientation:portrait) and (pointer:coarse),
+       (orientation:landscape) and (pointer:coarse) and (max-height:560px),
+       (prefers-reduced-motion:reduce){
+  .hero{height:100vh}
+  .band,.ring,.cue,.vsig{display:none}
+  .static-hero{display:grid}
+  .poster{opacity:1}
+}
+@media (max-height:560px){.cue{display:none}}
+
+/* ============================================================
+   THE PAGE BELOW
+   ============================================================ */
+main{position:relative;z-index:1;background:var(--canvas)}
+section{padding:clamp(80px,11vh,150px) var(--gutter);position:relative}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 20px}
+h2.sec{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.6vw,56px);
+  line-height:1.12;margin:0}
+.lede{color:var(--text-secondary);max-width:52ch;margin:20px 0 0;font-size:clamp(16px,1.3vw,19px)}
+.rule{height:1px;background:var(--hairline);margin:0;border:0;
+  transform:scaleX(0);transform-origin:left;transition:transform 1.3s var(--ease)}
+.in .rule{transform:scaleX(1)}
+
+/* entrance choreography */
+.rise{opacity:0;transform:translateY(24px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.in .rise{opacity:1;transform:none}
+.in .rise:nth-child(2){transition-delay:.09s}
+.in .rise:nth-child(3){transition-delay:.18s}
+.in .rise:nth-child(4){transition-delay:.27s}
+.in.done .rise,.in.done .rise:nth-child(2),.in.done .rise:nth-child(3),.in.done .rise:nth-child(4){transition-delay:0s!important}
+
+/* ---------- 01 the range ---------- */
+.range-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:clamp(14px,1.6vw,26px);margin-top:clamp(38px,5vh,62px)}
+.card{background:var(--panel);border:1px solid var(--hairline);position:relative;overflow:hidden;
+  transition:border-color .5s var(--ease),transform .5s var(--ease)}
+.card:hover{border-color:var(--border-interactive);transform:translateY(-3px)}
+.card .shot{aspect-ratio:1;overflow:hidden;position:relative;
+  background:radial-gradient(62% 54% at 50% 42%,rgba(192,138,82,.07),rgba(192,138,82,0) 72%),var(--panel-hi)}
+.card .shot img{width:100%;height:100%;object-fit:contain;padding:7%;
+  transition:transform 1.1s var(--ease);
+  filter:drop-shadow(0 22px 34px rgba(0,0,0,.55))}
+.card:hover .shot img{transform:scale(1.045) translateY(-4px)}
+.card .meta{padding:20px 22px 24px}
+.card h3{font-family:var(--display);font-weight:400;font-size:20px;margin:0;letter-spacing:.03em}
+.card p{margin:8px 0 0;font-size:14.5px;color:var(--text-secondary);line-height:1.55}
+.card .price{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--accent);
+  margin-top:13px;display:none}
+.card .price.on{display:block}
+
+/* ---------- 02 the make ---------- */
+.make{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);align-items:center}
+@media (max-width:920px){.make{grid-template-columns:1fr}}
+.make-figs{display:grid;gap:14px}
+.make-figs img{border:1px solid var(--hairline)}
+.checks{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:0}
+.checks li{padding:22px 0;border-top:1px solid var(--hairline);display:grid;
+  grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.checks li:last-child{border-bottom:1px solid var(--hairline)}
+.checks .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent-muted);padding-top:5px}
+.checks h4{font-family:var(--display);font-weight:400;font-size:clamp(18px,2vw,23px);margin:0;letter-spacing:.02em}
+.checks p{margin:7px 0 0;color:var(--text-secondary);font-size:15px;line-height:1.6}
+
+/* ---------- 03 the moment ---------- */
+.moment{background:var(--canvas-deep);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.moment-in{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:clamp(34px,6vw,90px);align-items:center;
+  max-width:1180px;margin:0 auto}
+@media (max-width:900px){.moment-in{grid-template-columns:1fr}}
+.holder{aspect-ratio:1;position:relative;display:grid;place-items:center;
+  border:1px solid var(--hairline);background:
+    radial-gradient(70% 60% at 50% 32%,rgba(192,138,82,.075),rgba(192,138,82,0) 72%),var(--panel);
+  cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.holder svg{width:62%;height:62%;overflow:visible}
+.holder .track{fill:none;stroke:var(--hairline);stroke-width:2;vector-effect:non-scaling-stroke}
+.holder .draw{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;
+  vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 9px rgba(192,138,82,.42))}
+.holder .tip{fill:var(--accent);opacity:0;transform-box:fill-box;transform-origin:center}
+.holder .hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--text-secondary);transition:opacity .5s var(--ease)}
+.holder.complete .hint{opacity:0}
+.story p{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.3vw,28px);
+  line-height:1.45;margin:0 0 26px;opacity:0;transform:translateY(16px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.story p:last-child{margin-bottom:0;color:var(--accent)}
+.holder-done .story p{opacity:1;transform:none}
+.holder-done .story p:nth-child(2){transition-delay:.22s}
+.holder-done .story p:nth-child(3){transition-delay:.44s}
+
+/* ---------- 04 the arrival ---------- */
+.arrival{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(30px,5vw,76px);align-items:center}
+@media (max-width:920px){.arrival{grid-template-columns:1fr}}
+.arrival img{border:1px solid var(--hairline)}
+
+/* ---------- 05 fit ---------- */
+.ladder{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.ladder span{font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+  padding:11px 18px;border:1px solid var(--hairline);color:var(--text-secondary)}
+
+/* ---------- 06 faq ---------- */
+.faq{max-width:880px}
+.faq details{border-top:1px solid var(--hairline)}
+.faq details:last-of-type{border-bottom:1px solid var(--hairline)}
+.faq summary{cursor:pointer;list-style:none;padding:24px 40px 24px 0;position:relative;
+  font-family:var(--display);font-weight:400;font-size:clamp(17px,1.9vw,21px);letter-spacing:.02em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:9px;height:9px;
+  border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);
+  transform:translateY(-70%) rotate(45deg);transition:transform .45s var(--ease)}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+.faq .a{padding:0 0 24px;color:var(--text-secondary);max-width:62ch;margin:0}
+
+/* ---------- 07 cta ---------- */
+.cta{background:var(--canvas-deep);border-top:1px solid var(--hairline)}
+.cta-in{max-width:620px;margin:0 auto;text-align:center}
+form{margin-top:38px;display:grid;gap:14px;text-align:left}
+label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-secondary);display:block;margin-bottom:7px}
+input,select,textarea{width:100%;background:var(--panel);color:var(--text-primary);
+  border:1px solid var(--border-interactive);padding:13px 15px;font-family:var(--body);
+  font-size:16px;font-weight:300;transition:border-color .4s var(--ease)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+textarea{min-height:110px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+form .btn{width:100%;margin-top:6px}
+.sent{margin-top:26px;padding:22px;border:1px solid var(--accent-muted);
+  background:rgba(192,138,82,.05);display:none}
+.sent.on{display:block}
+.sent p{margin:0;font-family:var(--display);font-size:19px}
+
+/* ---------- footer ---------- */
+footer{padding:clamp(48px,7vh,80px) var(--gutter);border-top:1px solid var(--hairline);
+  display:grid;gap:26px;position:relative;z-index:1;background:var(--canvas)}
+.f-top{display:flex;align-items:center;gap:12px}
+.f-top svg{width:26px;height:26px}
+.f-wm{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.3em}
+.f-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.f-care{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text-secondary);
+  line-height:1.9;max-width:60ch;margin:0}
+.f-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text-secondary);
+  padding-top:22px;border-top:1px solid var(--hairline)}
+.f-bot a{text-decoration:none;transition:color .4s var(--ease)}
+.f-bot a:hover{color:var(--accent)}
+
+/* ---------- pause everything off tab ---------- */
+body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
+
+/* ---------- reduced motion, honoured completely ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important;transition-delay:0s!important}
+  .rise{opacity:1;transform:none}
+  .rule{transform:scaleX(1)}
+  .story p{opacity:1;transform:none}
+  .cue i{opacity:.6}
+  /* positional transforms re-applied per breakpoint so nothing lands off screen */
+  .ring{transform:translateX(-50%) rotate(-90deg)}
+  .cue{transform:translateX(-50%)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="env" aria-hidden="true"></div>
+<div class="env-glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="brand" href="#top" aria-label="VANTOR home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 5.6l7.4 2.4L16 27l5.6-19L29 5.6 16 30.4z" fill="#C08A52"/></svg>
+    <span class="wm">VANTOR</span>
+  </a>
+  <div class="navlinks">
+    <a href="#range">The range</a>
+    <a href="#make">The make</a>
+    <a href="#fit">Fit</a>
+    <a href="#faq">Questions</a>
+  </div>
+  <a class="btn" href="#enquire">Enquire</a>
+</nav>
+
+<header class="hero" id="top">
+  <div class="stage" id="stage">
+    <div class="poster" id="poster" aria-hidden="true"></div>
+    <video id="hero" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+    <div class="scrim" aria-hidden="true"></div>
+
+    <div class="vsig" id="vsig" aria-hidden="true">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path id="vL" d="M4 3 L50 93"/>
+        <path id="vR" d="M96 3 L50 93"/>
+        <circle class="point" id="vP" cx="50" cy="93" r="1.1"/>
+      </svg>
+    </div>
+
+    <div class="band" id="b1" data-a="0" data-b="0.20">
+      <div class="inner">
+        <h2 data-split="word"><span class="vh">Nobody grows into bold.</span><span class="vis" aria-hidden="true">Nobody grows into bold.</span></h2>
+        <p class="sub">You put it on.</p>
+      </div>
+    </div>
+
+    <div class="band" id="b2" data-a="0.25" data-b="0.45" data-spread="0.42">
+      <div class="inner">
+        <h2 data-split="char"><span class="vh">Grain you can read across a room.</span><span class="vis" aria-hidden="true">Grain you can read across a room.</span></h2>
+        <p class="sub">Genuine leather. Heavy hand. No plastic shine.</p>
+      </div>
+    </div>
+
+    <div class="band" id="b3" data-a="0.50" data-b="0.68">
+      <div class="inner">
+        <h2 style="position:relative">
+          <span class="soft" aria-hidden="true">The mark is small on purpose.</span>
+          <span class="sharp">The mark is small on purpose.</span>
+        </h2>
+        <p class="sub">One V, on the snap. That is the whole logo.</p>
+      </div>
+    </div>
+
+    <div class="band" id="b4" data-a="0.74" data-b="1">
+      <div class="inner">
+        <h2 data-split="word"><span class="vh">Built for a bolder you.</span><span class="vis" aria-hidden="true">Built for a bolder you.</span></h2>
+        <p class="sub">Eleven jackets. One mark. Made responsibly.</p>
+        <div class="row"><a class="btn btn-solid" href="#range">See the range</a><a class="btn" href="#make">How to tell it is real</a></div>
+      </div>
+    </div>
+
+    <svg class="ring" id="ring" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/>
+    </svg>
+
+    <div class="static-hero" id="statichero">
+      <div>
+        <h1>Built for a bolder you.</h1>
+        <p>Eleven jackets. One mark. Genuine leather, made responsibly.</p>
+        <div class="row"><a class="btn btn-solid" href="#range">See the range</a></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- 01 the range -->
+  <section id="range">
+    <div class="range-head">
+      <div>
+        <p class="kicker">01 / The range</p>
+        <h2 class="sec">Eleven jackets. No filler.</h2>
+      </div>
+      <p class="lede">Every one of them is lined, finished with the same mark, and cut to be worn hard.</p>
+    </div>
+    <div class="grid" id="rangegrid"></div>
+  </section>
+
+  <!-- 02 the make -->
+  <section id="make">
+    <div class="make">
+      <div class="col">
+        <p class="kicker">02 / The make</p>
+        <h2 class="sec">How to tell it is real.</h2>
+        <p class="lede">Four things a good jacket does that a cheap one cannot. Check ours against all four.</p>
+        <ul class="checks">
+          <li><span class="n">01</span><div><h4>It has a grain, not a pattern.</h4><p>Real hide repeats nothing. Hold two panels side by side and they will not match.</p></div></li>
+          <li><span class="n">02</span><div><h4>It drinks water.</h4><p>A drop sinks in and darkens. On plastic it sits there and beads.</p></div></li>
+          <li><span class="n">03</span><div><h4>It has weight.</h4><p>You feel it on your shoulders the first time you put it on. That is the point.</p></div></li>
+          <li><span class="n">04</span><div><h4>It smells like leather.</h4><p>There is no substitute for this one and everybody knows it.</p></div></li>
+        </ul>
+      </div>
+      <div class="make-figs">
+        <img src="assets/brand/patina.jpg" alt="Close detail of the Vintage Bomber, showing mottled patina across the chest panels and a brass zip" loading="lazy" width="1200" height="1200">
+        <img src="assets/brand/hardware.jpg" alt="VANTOR hardware in aged brass: an engraved zip pull, a stamped snap and a buckle on black leather" loading="lazy" width="1600" height="1600">
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the moment -->
+  <section class="moment" id="moment">
+    <div class="moment-in">
+      <div class="holder" id="holder" role="button" tabindex="0"
+           aria-label="Press and hold to draw the V and reveal the VANTOR story">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path class="track" d="M6 10 L50 88 L94 10"/>
+          <path class="draw" id="hdraw" d="M6 10 L50 88 L94 10"/>
+          <circle class="tip" id="htip" cx="50" cy="88" r="2.6"/>
+        </svg>
+        <span class="hint" id="hint">Press and hold</span>
+      </div>
+      <div>
+        <p class="kicker">03</p>
+        <h2 class="sec">Everything comes to a point.</h2>
+        <div class="story" id="story" style="margin-top:34px">
+          <p>VANTOR is inspired by the spirit of moving forward, drawn from the idea of avant and strengthened by a bold, decisive edge.</p>
+          <p>Crafted for those who refuse to blend in.</p>
+          <p>More than a jacket. A state of mind.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the arrival -->
+  <section id="arrival">
+    <div class="arrival">
+      <img src="assets/brand/packaging.jpg" alt="VANTOR packaging: a foiled black box, a carrier bag, tissue printed with the V motif and a thank you card" loading="lazy" width="1600" height="1600">
+      <div>
+        <p class="kicker">04 / The arrival</p>
+        <h2 class="sec">It shows up like it costs what it costs.</h2>
+        <p class="lede">Foiled box, tissue, a card. Nothing plastic in the whole package.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 fit -->
+  <section id="fit">
+    <p class="kicker">05 / Fit</p>
+    <h2 class="sec">Cut oversized. Sized honestly.</h2>
+    <p class="lede">Every jacket here is cut oversized on purpose, so take your normal size unless you want it roomier still.</p>
+    <div class="ladder"><span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span></div>
+  </section>
+
+  <!-- 06 faq -->
+  <section id="faq">
+    <p class="kicker">06</p>
+    <h2 class="sec">The questions people actually ask.</h2>
+    <div class="faq" style="margin-top:40px">
+      <details><summary>Is this real leather or is it PU?</summary><p class="a">Genuine leather, with a polyester lining. The care tag on every jacket says so, and so does the grain.</p></details>
+      <details><summary>Will it crack in two years?</summary><p class="a">Cheap bonded leather cracks because it is ground up scrap held together with glue. This is hide. Keep it out of direct heat, clean it professionally, and it outlives the trend that sold it to you.</p></details>
+      <details><summary>It looks stiff. Does it soften?</summary><p class="a">Yes. The first few wears are the stiffest it will ever be, and it moulds to your shoulders from there.</p></details>
+      <details><summary>What if it does not fit?</summary><p class="a">Tell us and we sort it out. No restocking fee.</p></details>
+      <details><summary>Why is it this price?</summary><p class="a">Hide, hardware and lining, in that order. Nothing here is decoration.</p></details>
+    </div>
+  </section>
+
+  <!-- 07 cta -->
+  <section class="cta" id="enquire">
+    <div class="cta-in">
+      <p class="kicker">07</p>
+      <h2 class="sec">Built for a bolder you.</h2>
+      <p class="lede" style="margin-left:auto;margin-right:auto">Tell us which one caught your eye and we will come back to you.</p>
+      <form id="form" novalidate>
+        <div class="two">
+          <div><label for="fname">Name</label><input id="fname" name="name" type="text" autocomplete="name" required></div>
+          <div><label for="femail">Email</label><input id="femail" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div><label for="fjacket">Which jacket</label><select id="fjacket" name="jacket"></select></div>
+        <div><label for="fmsg">Message</label><textarea id="fmsg" name="message"></textarea></div>
+        <button class="btn btn-solid" type="submit">Send it</button>
+      </form>
+      <div class="sent" id="sent" role="status"><p>Got it. We will come back to you shortly.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="f-top">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 5.6l7.4 2.4L16 27l5.6-19L29 5.6 16 30.4z" fill="#C08A52"/></svg>
+    <span class="f-wm">VANTOR</span>
+  </div>
+  <p class="f-tag" style="margin:0">Built for a bolder you</p>
+  <p class="f-care">Genuine leather. Lining 100% polyester. Professional leather clean only. Made responsibly.</p>
+  <div class="f-bot">
+    <span>&copy; <span id="yr">2026</span> VANTOR</span>
+    <a href="https://vantorworld.com">vantorworld.com</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   PRICES. Fill these in and they appear on every card.
+   Leave a value empty and that card simply shows no price.
+   Example: 'cafe-racer': '£340'
+   ============================================================ */
+var PRICES = {
+  'cafe-racer':'', 'vintage-bomber':'', 'flight-bomber':'', 'trucker':'',
+  'crop-bomber':'', 'bomber':'', 'bomber-oxblood':'', 'moto':'',
+  'moto-olive':'', 'cafe-racer-bone':'', 'field-bomber':''
+};
+
+var RANGE = [
+  ['cafe-racer','The Cafe Racer','Brown. Band collar, twin zip chest pockets, antique brass throughout.'],
+  ['vintage-bomber','The Vintage Bomber','Antique brown. Mottled patina, band collar, flap patch pockets.'],
+  ['flight-bomber','The Flight Bomber','Black. Pebbled grain, flap chest pockets, blacked out hardware.'],
+  ['trucker','The Trucker','Black. Cropped, patch pockets, V snaps down the placket.'],
+  ['crop-bomber','The Crop Bomber','Black. Crinkled grain, elasticated cuffs and hem.'],
+  ['bomber','The Bomber','Brown. Spread collar, two way zip, VANTOR on the pull.'],
+  ['bomber-oxblood','The Bomber, Oxblood','Burgundy. Spread collar, centre zip, V snaps at the cuff.'],
+  ['moto','The Moto','Brown. Notch lapels, snap down, zip chest pocket.'],
+  ['moto-olive','The Moto, Olive','Olive. Asymmetric zip, epaulettes, elasticated hem.'],
+  ['cafe-racer-bone','The Cafe Racer, Bone','Cream. Band collar, twin snaps, gunmetal hardware.'],
+  ['field-bomber','The Field Bomber','Stone. Band collar, flap chest pockets, snap placket over the zip.']
+];
+
+var $ = function(s,r){ return (r||document).querySelector(s); };
+var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+var clamp = function(v,lo,hi){ return Math.min(hi,Math.max(lo,v)); };
+var smoothstep = function(p,e0,e1){ var t=clamp((p-e0)/(e1-e0),0,1); return t*t*(3-2*t); };
+
+/* the tissue V motif, drawn here rather than shipped as an image */
+(function(){
+  var v = "%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E"
+        + "%3Cg fill='%23C08A52'%3E"
+        + "%3Cpath d='M18 40l9 3 7 24 7-24 9-3-16 42z'/%3E"
+        + "%3Cpath d='M128 40l9 3 7 24 7-24 9-3-16 42z'/%3E"
+        + "%3Cpath d='M73 150l9 3 7 24 7-24 9-3-16 42z'/%3E"
+        + "%3Cpath d='M183 150l9 3 7 24 7-24 9-3-16 42z'/%3E"
+        + "%3C/g%3E%3C/svg%3E";
+  document.documentElement.style.setProperty('--tissue', "url(\"data:image/svg+xml,"+v+"\")");
+})();
+
+/* ---------- the range grid, built from one list ---------- */
+(function(){
+  var grid = $('#rangegrid'), sel = $('#fjacket'), html = '', opts = '';
+  RANGE.forEach(function(r,i){
+    var slug=r[0], name=r[1], desc=r[2], price=PRICES[slug]||'';
+    html += '<article class="card rise">'
+         +    '<div class="shot"><img src="assets/products/'+slug+'.webp" alt="'+name+', '+desc.replace(/"/g,'')+'" '
+         +      (i<3?'':'loading="lazy" ')+'width="1000" height="1000"></div>'
+         +    '<div class="meta"><h3>'+name+'</h3><p>'+desc+'</p>'
+         +      '<div class="price'+(price?' on':'')+'">'+price+'</div></div>'
+         +  '</article>';
+    opts += '<option value="'+slug+'">'+name+'</option>';
+  });
+  grid.innerHTML = html;
+  sel.innerHTML = '<option value="">Not sure yet</option>' + opts;
+})();
+
+$('#yr').textContent = new Date().getFullYear();
+
+/* ============================================================
+   THE FIVE STATIC HERO GATES.
+   These strings must stay character for character identical to
+   the media query block in the stylesheet.
+   ============================================================ */
+var GATES = [
+  '(max-width: 720px)',
+  '(orientation: portrait) and (max-width: 1024px)',
+  '(orientation: portrait) and (pointer: coarse)',
+  '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
+  '(prefers-reduced-motion: reduce)'
+];
+
+var VIDEO_URL = 'assets/hero-scrub.mp4';
+var POSTER_URL = 'assets/hero-poster.jpg';
+var VIDEO_BYTES = 6000000;   /* real byte size, filled in when the film lands */
+
+var video = $('#hero'), stage = $('#stage'), ring = $('#ring'),
+    posterLayer = $('#poster'), hero = $('#top'),
+    vL = $('#vL'), vR = $('#vR'), vP = $('#vP');
+
+/* ---------- split the headlines once, with a seeded generator ---------- */
+function rng(seed){ var s = seed>>>0; return function(){ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+
+function split(band){
+  var h = $('h2[data-split]', band); if(!h) return;
+  var vis = $('.vis', h); if(!vis) return;
+  var mode = h.getAttribute('data-split');
+  var spread = parseFloat(band.getAttribute('data-spread')||'0.34');
+  var text = vis.textContent, words = text.split(' ');
+  var rand = rng(text.length * 7919 + 13);
+  var total = text.replace(/ /g,'').length, idx = 0, out = '';
+  words.forEach(function(w,wi){
+    var th;
+    if(mode === 'word'){
+      th = (wi/Math.max(1,words.length-1))*spread + rand()*0.05;
+      out += '<span class="w" style="--th:'+th.toFixed(3)+'">'+w+(wi<words.length-1?' ':'')+'</span>';
+    } else {
+      out += '<span class="w">';
+      for(var i=0;i<w.length;i++){
+        th = (idx/Math.max(1,total-1))*spread + rand()*0.06;
+        var jx = (rand()*2-1)*26;
+        out += '<span class="c" style="--th:'+th.toFixed(3)+';--jx:'+jx.toFixed(1)+'px">'+w[i]+'</span>';
+        idx++;
+      }
+      out += (wi<words.length-1?'<span class="w"> </span>':'') + '</span>';
+    }
+  });
+  vis.innerHTML = out;
+}
+
+var bands = $$('.band').map(function(el){
+  split(el);
+  return { el:el, a:parseFloat(el.getAttribute('data-a')), b:parseFloat(el.getAttribute('data-b')),
+           ramp:parseFloat(el.getAttribute('data-ramp')||'0') || 0, op:-1, k:-1 };
+});
+
+/* ---------- hero progress ---------- */
+function heroProgress(){
+  var r = hero.getBoundingClientRect();
+  var range = hero.offsetHeight - window.innerHeight;
+  if(range <= 0) return 0;
+  return clamp(-r.top / range, 0, 1);
+}
+
+/* ---------- gated seeks, deadlock safe ---------- */
+var seekBusy = false, pendingTime = null;
+function requestSeek(t){
+  if(!video.duration || !isFinite(video.duration)) return;
+  if(seekBusy){ pendingTime = t; return; }
+  seekBusy = true;
+  try { video.currentTime = t; } catch(e){ seekBusy = false; }
+}
+video.addEventListener('seeked', function(){
+  seekBusy = false;
+  if(pendingTime !== null){ var t = pendingTime; pendingTime = null; requestSeek(t); }
+});
+video.addEventListener('error', function(){ seekBusy = false; pendingTime = null; failVideo(); });
+
+/* ---------- the V signature, delta gated ---------- */
+var vLen = 0, lastV = -1;
+function initV(){
+  try { vLen = vL.getTotalLength(); } catch(e){ vLen = 100; }
+  [vL,vR].forEach(function(p){ p.style.strokeDasharray = vLen; p.style.strokeDashoffset = vLen; });
+}
+function drawV(p){
+  if(Math.abs(p - lastV) < 0.004) return;
+  lastV = p;
+  var off = vLen * (1 - p);
+  vL.style.strokeDashoffset = off;
+  vR.style.strokeDashoffset = off;
+  vP.style.opacity = smoothstep(p, 0.94, 1) * 0.95;
+  vP.setAttribute('r', (1.1 + smoothstep(p,0.94,1)*1.5).toFixed(2));
+}
+
+/* ---------- captions, delta gated ---------- */
+var loadK = 0, loadStart = 0;
+function updateCaptions(p){
+  for(var i=0;i<bands.length;i++){
+    var bd = bands[i], a = bd.a, b = bd.b;
+    var f = Math.min(0.02, (b-a)/3);
+    var inEase  = (i === 0) ? 1 : smoothstep(p, a, a+f);
+    var outEase = (i === bands.length-1) ? 1 : (1 - smoothstep(p, b-f, b));
+    var op = clamp(inEase * outEase, 0, 1);
+    var ramp = bd.ramp || Math.min(0.025, (b-a)*0.35);
+    var k = clamp((p-a)/ramp, 0, 1);
+    if(i === 0) k = Math.max(k, loadK);
+    if(Math.abs(op - bd.op) > 0.004){
+      bd.op = op;
+      bd.el.style.opacity = op;
+      bd.el.classList.toggle('live', op > 0.6);
+    }
+    if(Math.abs(k - bd.k) > 0.008){
+      bd.k = k;
+      bd.el.style.setProperty('--k', k.toFixed(3));
+    }
+  }
+  drawV(p);
+}
+
+/* ---------- the rAF loop that rests ---------- */
+var target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
+function tick(now){
+  var dt = Math.min(100, now - (lastTick || now));
+  lastTick = now;
+  var k = 0.16;
+  shown += (target - shown) * (1 - Math.pow(1 - k, dt/16.667));
+  var settledLoad = loadStart ? clamp((now - loadStart)/900, 0, 1) : 1;
+  var loadMoving = settledLoad < 1;
+  if(loadMoving) loadK = settledLoad * settledLoad * (3 - 2*settledLoad);
+  if(Math.abs(target - shown) < 0.0005 && !loadMoving){
+    shown = target; rafId = null; lastTick = 0;
+  } else {
+    rafId = requestAnimationFrame(tick);
+  }
+  if(video.duration) requestSeek(shown * video.duration);
+  updateCaptions(shown);
+}
+function kick(){ if(rafId === null && heroOnScreen && scrubOn) rafId = requestAnimationFrame(tick); }
+function onScroll(){ target = heroProgress(); kick(); }
+
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){
+    heroOnScreen = es[0].isIntersecting;
+    if(heroOnScreen) kick();
+  },{threshold:0}).observe(hero);
+}
+
+/* ---------- the blob loader: poster first, then the film ---------- */
+var started = false;
+function startBlobFetch(){
+  if(started) return; started = true;
+  loadHeroBlob().catch(failVideo);
+}
+function loadHeroBlob(){
+  var ctrl = new AbortController();
+  var watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
+  return fetch(VIDEO_URL, { signal: ctrl.signal }).then(function(res){
+    if(!res.ok) throw new Error('video ' + res.status);
+    var total = Number(res.headers.get('Content-Length')) || VIDEO_BYTES;
+    if(!res.body || !res.body.getReader){
+      clearTimeout(watchdog);
+      return res.blob().then(attach);
+    }
+    var reader = res.body.getReader(), chunks = [], got = 0, lastRing = 0;
+    function pump(){
+      return reader.read().then(function(r){
+        if(r.done){ clearTimeout(watchdog); return attach(new Blob(chunks)); }
+        clearTimeout(watchdog);
+        watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
+        chunks.push(r.value); got += r.value.length;
+        var frac = Math.min(1, got/total), now = performance.now();
+        if(now - lastRing > 100 || frac === 1){
+          lastRing = now;
+          ring.style.setProperty('--ld', Math.round(126*(1-frac)));
+        }
+        return pump();
+      });
+    }
+    return pump();
+  });
+}
+function attach(blob){
+  ring.style.setProperty('--ld', 0);
+  video.src = URL.createObjectURL(blob);
+  video.load();
+  video.addEventListener('canplay', function(){
+    requestSeek(heroProgress() * video.duration);
+    stage.classList.add('video-ready');
+    onScroll();
+  }, { once:true });
+}
+function failVideo(){
+  stage.classList.add('video-failed');
+  if(ring && ring.parentNode){
+    var cue = document.createElement('div');
+    cue.className = 'cue';
+    cue.innerHTML = '<i></i><span>Scroll</span>';
+    ring.parentNode.replaceChild(cue, ring);
+    ring = cue;
+  }
+}
+
+var heroInit = false;
+function initHeroOnce(){
+  if(heroInit) return; heroInit = true;
+  initV();
+  posterLayer.style.backgroundImage = "url('" + POSTER_URL + "')";
+  var img = new Image();
+  img.onload = startBlobFetch;
+  img.onerror = startBlobFetch;
+  img.src = POSTER_URL;
+  setTimeout(startBlobFetch, 4000);
+  loadStart = performance.now();
+}
+
+/* ---------- arm and disarm the scrub, live on all five gates ---------- */
+var scrubOn = false;
+function enableScrub(){
+  if(scrubOn) return; scrubOn = true;
+  initHeroOnce();
+  window.addEventListener('scroll', onScroll, { passive:true });
+  bands.forEach(function(b){ b.op = -1; b.k = -1; });
+  lastV = -1;
+  unpinFinalStates();
+  updateCaptions(heroProgress());
+  onScroll();
+}
+function disableScrub(){
+  if(!scrubOn) return; scrubOn = false;
+  window.removeEventListener('scroll', onScroll);
+  if(rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+}
+function applyHeroMode(){
+  var off = GATES.some(function(q){ return matchMedia(q).matches; });
+  if(off) disableScrub(); else enableScrub();
+}
+var MQLS = GATES.map(function(q){ return matchMedia(q); });
+MQLS.forEach(function(m){
+  if(m.addEventListener) m.addEventListener('change', applyHeroMode);
+  else if(m.addListener) m.addListener(applyHeroMode);
+});
+
+/* ============================================================
+   THE PAGE BELOW
+   ============================================================ */
+var io = null;
+if('IntersectionObserver' in window){
+  io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      el.classList.add('in');
+      io.unobserve(el);
+      /* retire the stagger delays once the entrance has finished, so later
+         siblings do not carry their delay into every hover for ever */
+      setTimeout(function(){ el.classList.add('done'); }, 1400);
+    });
+  },{ threshold:0.14, rootMargin:'0px 0px -8% 0px' });
+  $$('section').forEach(function(s){ io.observe(s); });
+} else {
+  $$('section').forEach(function(s){ s.classList.add('in','done'); });
+}
+
+/* ---------- the one interactive moment: press and hold ---------- */
+var holder = $('#holder'), hdraw = $('#hdraw'), htip = $('#htip'), moment = $('#moment');
+var hLen = 0, holding = false, hp = 0, hRaf = null, hDone = false, lastHp = -1;
+try { hLen = hdraw.getTotalLength(); } catch(e){ hLen = 200; }
+hdraw.style.strokeDasharray = hLen;
+hdraw.style.strokeDashoffset = hLen;
+
+function paintHold(){
+  if(Math.abs(hp - lastHp) < 0.005) return;
+  lastHp = hp;
+  hdraw.style.strokeDashoffset = hLen * (1 - hp);
+  htip.style.opacity = smoothstep(hp, 0.86, 1);
+  htip.style.transform = 'scale(' + (0.6 + smoothstep(hp,0.86,1)*0.7).toFixed(3) + ')';
+}
+function holdTick(){
+  hp = holding ? Math.min(1, hp + 0.016) : Math.max(0, hp - 0.022);
+  paintHold();
+  if(hp >= 1 && !hDone){
+    hDone = true;
+    holder.classList.add('complete');
+    moment.classList.add('holder-done');
+  }
+  if((holding && hp < 1) || (!holding && hp > 0)){ hRaf = requestAnimationFrame(holdTick); }
+  else { hRaf = null; }
+}
+function holdStart(e){ if(hDone) return; if(e && e.cancelable) e.preventDefault();
+  holding = true; if(hRaf === null) hRaf = requestAnimationFrame(holdTick); }
+function holdEnd(){ holding = false; if(hRaf === null && hp > 0) hRaf = requestAnimationFrame(holdTick); }
+holder.addEventListener('mousedown', holdStart);
+holder.addEventListener('touchstart', holdStart, { passive:false });
+window.addEventListener('mouseup', holdEnd);
+window.addEventListener('touchend', holdEnd);
+holder.addEventListener('mouseleave', holdEnd);
+holder.addEventListener('keydown', function(e){
+  if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); holdStart(null); }
+});
+holder.addEventListener('keyup', function(e){
+  if(e.key === ' ' || e.key === 'Enter'){ holdEnd(); }
+});
+
+/* ---------- the form. No backend here, so it is honest about it ----------
+   TO MAKE THIS REAL, pick one:
+   (a) mailto: set ACTION_EMAIL below to the business inbox.
+   (b) a free Formspree endpoint: set ACTION_POST to the endpoint URL.
+   Leave both empty and the form shows its thank you and goes nowhere. */
+var ACTION_EMAIL = '';
+var ACTION_POST  = '';
+
+$('#form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = e.target;
+  if(!f.name.value.trim() || !f.email.value.trim()){
+    (!f.name.value.trim() ? f.name : f.email).focus();
+    return;
+  }
+  if(ACTION_EMAIL){
+    var body = 'Name: '+f.name.value+'\nEmail: '+f.email.value+'\nJacket: '+f.jacket.value+'\n\n'+f.message.value;
+    window.location.href = 'mailto:'+ACTION_EMAIL+'?subject='+encodeURIComponent('VANTOR enquiry')+'&body='+encodeURIComponent(body);
+  } else if(ACTION_POST){
+    fetch(ACTION_POST, { method:'POST', body:new FormData(f), headers:{'Accept':'application/json'} });
+  }
+  f.style.display = 'none';
+  $('#sent').classList.add('on');
+});
+
+/* ---------- pause every animation on a hidden tab ---------- */
+document.addEventListener('visibilitychange', function(){
+  document.body.classList.toggle('paused', document.hidden);
+});
+
+/* ---------- reduced motion, honoured live and in both directions ---------- */
+function pinToFinalStates(){
+  $$('section').forEach(function(s){ s.classList.add('in','done'); });
+  moment.classList.add('holder-done');
+  holder.classList.add('complete');
+  hp = 1; lastHp = -1; paintHold();
+  hDone = true;
+}
+function unpinFinalStates(){
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches && hDone && hp === 1){
+    /* the hold stays completed once a visitor has earned it; only the
+       scroll drives go back to being scroll driven */
+  }
+}
+var rmq = matchMedia('(prefers-reduced-motion: reduce)');
+function onReducedMotion(e){
+  if(e.matches){ disableScrub(); pinToFinalStates(); }
+  else { applyHeroMode(); }
+}
+if(rmq.addEventListener) rmq.addEventListener('change', onReducedMotion);
+else if(rmq.addListener) rmq.addListener(onReducedMotion);
+if(rmq.matches) pinToFinalStates();
+
+applyHeroMode();
+})();
+</script>
+</body>
+</html>
