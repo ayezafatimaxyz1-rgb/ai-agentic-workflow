@@ -56,7 +56,7 @@ Neither Inter nor Roboto appears anywhere.
 
 **Subject:** Product 2, the oversized black flight bomber. Chosen over the other three
 because it is black, which is the brand kit's own world, because its heavy pebbled grain
-is the most convincing leather of the four on camera, and because its hardware already
+is the most convincing leather of the six on camera, and because its hardware already
 carries the V.
 
 **World:** the VANTOR store's own room, taken from STORE.png. Dark stone, deep shadow, one
@@ -97,7 +97,7 @@ is 12vh here.
 | 1 | 0.00 to 0.20 | High and close on the collar, grain large, one bronze edge on the pull | **"Nobody grows into bold."** / "You put it on." | Drift-down, echoing the camera's fall. Opens settled via the one time load ramp. |
 | 2 | 0.25 to 0.45 | Descending the zip line, grain filling the frame | **"Grain you can read across a room."** / "Genuine leather. Heavy hand. No plastic shine." | Grid snap-align, characters sliding into place in reading order, echoing the zip teeth passing |
 | 3 | 0.50 to 0.68 | Past the chest pockets, camera easing back, dust in the beam | **"The mark is small on purpose."** / "One V, on the pull. That is the whole logo." | Blur-to-sharp, echoing the beam's bloom clearing |
-| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Four jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
+| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Six jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
 
 Band 2 is placed deliberately. It answers the objection buyers named first, that the
 leather is fake, at the exact moment the footage is showing them the grain.
@@ -108,23 +108,26 @@ For phones, portrait tablets, landscape phones and reduced motion. Composed over
 ending frame.
 
 - Headline: **"Built for a bolder you."**
-- Subline: **"Four jackets. One mark. Genuine leather, made responsibly."**
+- Subline: **"Six jackets. One mark. Genuine leather, made responsibly."**
 - CTA: **"See the range"**
 
 ## 7. The below-fold outline
 
 Every section funnels to the single anchor `#enquire`.
 
-**a. The four** (the range)
+**a. The range**
 - Kicker: `01 / THE RANGE`
-- Headline: **"Four jackets. No filler."**
+- Headline: **"Six jackets. No filler."**
 - Lede: "Every one of them is cut oversized, lined, and finished with the same mark."
-- Four cards, each using the owner's real photographs, no generated stand ins:
+- Six cards, each using the owner's real photographs, no generated stand ins:
   - **The Flight Bomber** / "Black. Pebbled grain, flap chest pockets, blacked out hardware."
   - **The Trucker** / "Black. Cropped, patch pockets, V snaps down the placket."
   - **The Bomber** / "Brown. Spread collar, two way zip, VANTOR on the pull."
-  - **The Moto** / "Olive. Asymmetric zip, epaulettes, elasticated hem."
-- Every card gets an image. No card is styled differently from its siblings.
+  - **The Moto** / "Brown. Notch lapels, snap down, zip chest pocket."
+  - **The Bomber, Oxblood** / "Burgundy. Spread collar, centre zip, V snaps at the cuff."
+  - **The Moto, Olive** / "Olive. Asymmetric zip, epaulettes, elasticated hem."
+- Every card gets an image, all six treated identically. A card without one would read as
+  a hole to a first time visitor.
 
 **b. The make** (the proof, answering objection one)
 - Kicker: `02 / THE MAKE`
@@ -175,7 +178,7 @@ Every section funnels to the single anchor `#enquire`.
 - Kicker: `07`
 - Headline: **"Built for a bolder you."**
 - Lede: "Tell us which one caught your eye and we will come back to you."
-- Form: Name, Email, Which jacket (a select listing the four), Message.
+- Form: Name, Email, Which jacket (a select listing all six), Message.
 - Button: **"Send it"**
 - Success state: **"Got it. We will come back to you shortly."**
 - **Form handling:** a JavaScript success state, because there is no backend on a static
