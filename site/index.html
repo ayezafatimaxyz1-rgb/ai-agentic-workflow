@@ -144,6 +144,16 @@ a{color:inherit}
 .band::before{content:"";position:absolute;inset:-4%;pointer-events:none;
   opacity:calc(.25 + .75*var(--k,1));
   background:radial-gradient(ellipse 74% 62% at 50% 50%,rgba(6,5,4,.70) 0%,rgba(6,5,4,.46) 46%,rgba(6,5,4,0) 76%)}
+/* Band 2 sits at the brightest moment of the descent, where the lit collar and
+   the brass fill the frame. Measured at 3.28:1 against the band's worst frame
+   with the shared scrim, below the 3.5 floor, so this one gets its own deeper
+   and wider ellipse. Tuned against that frame, not against the average. */
+#b2::before{background:radial-gradient(ellipse 84% 70% at 50% 50%,
+  rgba(6,5,4,.84) 0%,rgba(6,5,4,.64) 50%,rgba(6,5,4,0) 80%)}
+/* Band 3 cleared the floor at 3.63:1, which is passing with almost nothing in
+   hand. A little more depth buys headroom for a visitor on a bright screen. */
+#b3::before{background:radial-gradient(ellipse 80% 66% at 50% 50%,
+  rgba(6,5,4,.78) 0%,rgba(6,5,4,.56) 48%,rgba(6,5,4,0) 78%)}
 .band .inner{position:relative;max-width:min(1100px,92vw);text-align:center}
 .band h2{font-family:var(--display);font-weight:400;margin:0;
   font-size:clamp(30px,6.2vw,76px);line-height:1.08;letter-spacing:.012em}
@@ -646,10 +656,22 @@ var GATES = [
   '(prefers-reduced-motion: reduce)'
 ];
 
-var VIDEO_URL = 'assets/hero-scrub.mp4';
+/* Two encodes of the same six seconds, and the browser picks. Safari and iOS
+   need the H.264 mp4; everything else takes the smaller VP9. Some Chromium
+   builds ship without proprietary codecs and cannot decode mp4 at all, and
+   without the webm those visitors silently drop to the still image. */
+var VIDEO_MP4  = { url:'assets/hero-scrub.mp4',  bytes:7116573 };
+var VIDEO_WEBM = { url:'assets/hero-scrub.webm', bytes:6523971 };
+var pick = (function(){
+  var probe = document.createElement('video');
+  if(probe.canPlayType('video/webm; codecs="vp9"')) return VIDEO_WEBM;
+  return VIDEO_MP4;
+})();
+var VIDEO_URL = pick.url;
+var VIDEO_BYTES = pick.bytes;
 var POSTER_URL = 'assets/hero-poster.jpg';   /* 16:9, behind the scrub */
 var STILL_URL  = 'assets/hero-still.jpg';    /* portrait, for the gated static hero */
-var VIDEO_BYTES = 6000000;   /* real byte size, filled in when the film lands */
+var VIDEO_BYTES = 7116573;   /* the real size, the fallback when Content-Length is missing */
 
 var video = $('#hero'), stage = $('#stage'), ring = $('#ring'),
     posterLayer = $('#poster'), hero = $('#top'),
@@ -822,7 +844,15 @@ function loadHeroBlob(){
     var reader = res.body.getReader(), chunks = [], got = 0, lastRing = 0;
     function pump(){
       return reader.read().then(function(r){
-        if(r.done){ clearTimeout(watchdog); return attach(new Blob(chunks)); }
+        if(r.done){
+          clearTimeout(watchdog);
+          /* The type matters. Assembling chunks with new Blob(chunks) yields a
+             blob with an empty type, and the video element then refuses to
+             decode it and fires error, which silently drops every visitor into
+             the still-image fallback. A plain res.blob() keeps the content type;
+             a streamed read has to put it back. */
+          return attach(new Blob(chunks, { type: res.headers.get('Content-Type') || 'video/mp4' }));
+        }
         clearTimeout(watchdog);
         watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
         chunks.push(r.value); got += r.value.length;
