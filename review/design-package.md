@@ -66,6 +66,10 @@ as a silhouette; the brass gives the descending camera something to catch light 
 is what keeps a locked path from reading as dead footage; and its grain is lightly
 distressed, which reads as real hide faster than a uniform surface does.
 
+The Vintage Bomber was the closest rival and lost only on hardware, its zip being silver.
+It earns the proof section instead, where its patina does more work than it would as a
+silhouette in a dark room.
+
 The black flight bomber leads the range section instead, where the white studio background
 suits it.
 
@@ -108,7 +112,7 @@ is 12vh here.
 | 1 | 0.00 to 0.20 | High and close on the band collar, grain large, brass catching one edge | **"Nobody grows into bold."** / "You put it on." | Drift-down, echoing the camera's fall. Opens settled via the one time load ramp. |
 | 2 | 0.25 to 0.45 | Descending the brass zip line, grain filling the frame | **"Grain you can read across a room."** / "Genuine leather. Heavy hand. No plastic shine." | Grid snap-align, characters sliding into place in reading order, echoing the zip teeth passing |
 | 3 | 0.50 to 0.68 | Past the twin zip pockets, camera easing back, dust in the beam | **"The mark is small on purpose."** / "One V, on the snap. That is the whole logo." | Blur-to-sharp, echoing the beam's bloom clearing |
-| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Eight jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
+| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Eleven jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
 
 Band 2 is placed deliberately. It answers the objection buyers named first, that the
 leather is fake, at the exact moment the footage is showing them the grain.
@@ -119,7 +123,7 @@ For phones, portrait tablets, landscape phones and reduced motion. Composed over
 ending frame.
 
 - Headline: **"Built for a bolder you."**
-- Subline: **"Eight jackets. One mark. Genuine leather, made responsibly."**
+- Subline: **"Eleven jackets. One mark. Genuine leather, made responsibly."**
 - CTA: **"See the range"**
 
 ## 7. The below-fold outline
@@ -128,10 +132,12 @@ Every section funnels to the single anchor `#enquire`.
 
 **a. The range**
 - Kicker: `01 / THE RANGE`
-- Headline: **"Eight jackets. No filler."**
+- Headline: **"Eleven jackets. No filler."**
 - Lede: "Every one of them is lined, finished with the same mark, and cut to be worn hard."
-- Eight cards, each using the owner's real photographs, no generated stand ins:
+- Eleven cards in a three column grid, each using the owner's real photographs, no generated
+  stand ins. Lazy loaded below the first row:
   - **The Cafe Racer** / "Brown. Band collar, twin zip chest pockets, antique brass throughout."
+  - **The Vintage Bomber** / "Antique brown. Mottled patina, band collar, flap patch pockets."
   - **The Flight Bomber** / "Black. Pebbled grain, flap chest pockets, blacked out hardware."
   - **The Trucker** / "Black. Cropped, patch pockets, V snaps down the placket."
   - **The Crop Bomber** / "Black. Crinkled grain, elasticated cuffs and hem."
@@ -139,7 +145,9 @@ Every section funnels to the single anchor `#enquire`.
   - **The Bomber, Oxblood** / "Burgundy. Spread collar, centre zip, V snaps at the cuff."
   - **The Moto** / "Brown. Notch lapels, snap down, zip chest pocket."
   - **The Moto, Olive** / "Olive. Asymmetric zip, epaulettes, elasticated hem."
-- Every card gets an image, all eight treated identically. A card without one would read as
+  - **The Cafe Racer, Bone** / "Cream. Band collar, twin snaps, gunmetal hardware."
+  - **The Field Bomber** / "Stone. Band collar, flap chest pockets, snap placket over the zip."
+- Every card gets an image, all eleven treated identically. A card without one would read as
   a hole to a first time visitor.
 
 **b. The make** (the proof, answering objection one)
@@ -151,7 +159,10 @@ Every section funnels to the single anchor `#enquire`.
   - **"It drinks water."** / "A drop sinks in and darkens. On plastic it sits there and beads."
   - **"It has weight."** / "You feel it on your shoulders the first time you put it on. That is the point."
   - **"It smells like leather."** / "There is no substitute for this one and everybody knows it."
-- Uses the owner's own HARDWARE DETAILS photograph as the section image.
+- Section image: the owner's HARDWARE DETAILS photograph for the hardware claim, and the
+  Vintage Bomber's mottled patina panel for the grain claim. That jacket is the strongest
+  visual proof in the whole range that this leather ages rather than degrades, which is the
+  single thing premium buyers said they want most.
 
 **c. The moment** (the one interactive element)
 - Kicker: `03`
@@ -191,7 +202,7 @@ Every section funnels to the single anchor `#enquire`.
 - Kicker: `07`
 - Headline: **"Built for a bolder you."**
 - Lede: "Tell us which one caught your eye and we will come back to you."
-- Form: Name, Email, Which jacket (a select listing all eight), Message.
+- Form: Name, Email, Which jacket (a select listing all eleven), Message.
 - Button: **"Send it"**
 - Success state: **"Got it. We will come back to you shortly."**
 - **Form handling:** a JavaScript success state, because there is no backend on a static
