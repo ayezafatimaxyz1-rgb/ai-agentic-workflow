@@ -98,7 +98,11 @@ a{color:inherit}
 .btn:hover{color:#120C06;background:var(--accent);border-color:var(--accent)}
 .btn-solid{background:var(--accent);border-color:var(--accent);color:#120C06}
 .btn-solid:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
-@media (pointer:coarse){.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}}
+@media (pointer:coarse){
+  .btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .brand{min-height:44px}
+  .faq summary{min-height:44px;display:flex;align-items:center}
+}
 
 /* ============================================================
    HERO
@@ -434,11 +438,11 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 01 the range -->
   <section id="range">
     <div class="range-head">
-      <div>
+      <div class="rise">
         <p class="kicker">01 / The range</p>
         <h2 class="sec">Eleven jackets. No filler.</h2>
       </div>
-      <p class="lede">Every one of them is lined, finished with the same mark, and cut to be worn hard.</p>
+      <p class="lede rise">Every one of them is lined, finished with the same mark, and cut to be worn hard.</p>
     </div>
     <div class="grid" id="rangegrid"></div>
   </section>
@@ -447,17 +451,17 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section id="make">
     <div class="make">
       <div class="col">
-        <p class="kicker">02 / The make</p>
-        <h2 class="sec">How to tell it is real.</h2>
-        <p class="lede">Four things a good jacket does that a cheap one cannot. Check ours against all four.</p>
-        <ul class="checks">
+        <p class="kicker rise">02 / The make</p>
+        <h2 class="sec rise">How to tell it is real.</h2>
+        <p class="lede rise">Four things a good jacket does that a cheap one cannot. Check ours against all four.</p>
+        <ul class="checks rise">
           <li><span class="n">01</span><div><h4>It has a grain, not a pattern.</h4><p>Real hide repeats nothing. Hold two panels side by side and they will not match.</p></div></li>
           <li><span class="n">02</span><div><h4>It drinks water.</h4><p>A drop sinks in and darkens. On plastic it sits there and beads.</p></div></li>
           <li><span class="n">03</span><div><h4>It has weight.</h4><p>You feel it on your shoulders the first time you put it on. That is the point.</p></div></li>
           <li><span class="n">04</span><div><h4>It smells like leather.</h4><p>There is no substitute for this one and everybody knows it.</p></div></li>
         </ul>
       </div>
-      <div class="make-figs">
+      <div class="make-figs rise">
         <img src="assets/brand/patina.jpg" alt="Close detail of the Vintage Bomber, showing mottled patina across the chest panels and a brass zip" loading="lazy" width="1200" height="1200">
         <img src="assets/brand/hardware.jpg" alt="VANTOR hardware in aged brass: an engraved zip pull, a stamped snap and a buckle on black leather" loading="lazy" width="1600" height="1600">
       </div>
@@ -477,8 +481,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
         <span class="hint" id="hint">Press and hold</span>
       </div>
       <div>
-        <p class="kicker">03</p>
-        <h2 class="sec">Everything comes to a point.</h2>
+        <p class="kicker rise">03</p>
+        <h2 class="sec rise">Everything comes to a point.</h2>
         <div class="story" id="story" style="margin-top:34px">
           <p>VANTOR is inspired by the spirit of moving forward, drawn from the idea of avant and strengthened by a bold, decisive edge.</p>
           <p>Crafted for those who refuse to blend in.</p>
@@ -491,28 +495,28 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 04 the arrival -->
   <section id="arrival">
     <div class="arrival">
-      <img src="assets/brand/packaging.jpg" alt="VANTOR packaging: a foiled black box, a carrier bag, tissue printed with the V motif and a thank you card" loading="lazy" width="1600" height="1600">
+      <img class="rise" src="assets/brand/packaging.jpg" alt="VANTOR packaging: a foiled black box, a carrier bag, tissue printed with the V motif and a thank you card" loading="lazy" width="1600" height="1600">
       <div>
-        <p class="kicker">04 / The arrival</p>
-        <h2 class="sec">It shows up like it costs what it costs.</h2>
-        <p class="lede">Foiled box, tissue, a card. Nothing plastic in the whole package.</p>
+        <p class="kicker rise">04 / The arrival</p>
+        <h2 class="sec rise">It shows up like it costs what it costs.</h2>
+        <p class="lede rise">Foiled box, tissue, a card. Nothing plastic in the whole package.</p>
       </div>
     </div>
   </section>
 
   <!-- 05 fit -->
   <section id="fit">
-    <p class="kicker">05 / Fit</p>
-    <h2 class="sec">Cut oversized. Sized honestly.</h2>
-    <p class="lede">Every jacket here is cut oversized on purpose, so take your normal size unless you want it roomier still.</p>
-    <div class="ladder"><span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span></div>
+    <p class="kicker rise">05 / Fit</p>
+    <h2 class="sec rise">Cut oversized. Sized honestly.</h2>
+    <p class="lede rise">Every jacket here is cut oversized on purpose, so take your normal size unless you want it roomier still.</p>
+    <div class="ladder rise"><span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span></div>
   </section>
 
   <!-- 06 faq -->
   <section id="faq">
-    <p class="kicker">06</p>
-    <h2 class="sec">The questions people actually ask.</h2>
-    <div class="faq" style="margin-top:40px">
+    <p class="kicker rise">06</p>
+    <h2 class="sec rise">The questions people actually ask.</h2>
+    <div class="faq rise" style="margin-top:40px">
       <details><summary>Is this real leather or is it PU?</summary><p class="a">Genuine leather, with a polyester lining. The care tag on every jacket says so, and so does the grain.</p></details>
       <details><summary>Will it crack in two years?</summary><p class="a">Cheap bonded leather cracks because it is ground up scrap held together with glue. This is hide. Keep it out of direct heat, clean it professionally, and it outlives the trend that sold it to you.</p></details>
       <details><summary>It looks stiff. Does it soften?</summary><p class="a">Yes. The first few wears are the stiffest it will ever be, and it moulds to your shoulders from there.</p></details>
@@ -524,10 +528,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 07 cta -->
   <section class="cta" id="enquire">
     <div class="cta-in">
-      <p class="kicker">07</p>
-      <h2 class="sec">Built for a bolder you.</h2>
-      <p class="lede" style="margin-left:auto;margin-right:auto">Tell us which one caught your eye and we will come back to you.</p>
-      <form id="form" novalidate>
+      <p class="kicker rise">07</p>
+      <h2 class="sec rise">Built for a bolder you.</h2>
+      <p class="lede rise" style="margin-left:auto;margin-right:auto">Tell us which one caught your eye and we will come back to you.</p>
+      <form id="form" class="rise" novalidate>
         <div class="two">
           <div><label for="fname">Name</label><input id="fname" name="name" type="text" autocomplete="name" required></div>
           <div><label for="femail">Email</label><input id="femail" name="email" type="email" autocomplete="email" required></div>
