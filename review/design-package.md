@@ -54,31 +54,42 @@ Neither Inter nor Roboto appears anywhere.
 
 ## 4. The film
 
-**Subject:** Product 2, the oversized black flight bomber. Chosen over the other three
-because it is black, which is the brand kit's own world, because its heavy pebbled grain
-is the most convincing leather of the six on camera, and because its hardware already
-carries the V.
+**Subject:** Product 7, the brown cafe racer with antique brass hardware.
+
+Revised from the black flight bomber once the brass jacket arrived, and the reason is
+brand coherence. VANTOR's accent is aged bronze: the logo, the hang tags, the foiled box,
+the storefront signage and the engraved hardware shot are all that one colour. This is the
+only jacket in the range whose hardware is that exact finish, so the film and the page end
+up in one palette rather than two. Three practical reasons on top of the brand one: brown
+separates from a black room, where a black jacket with blacked out hardware risks reading
+as a silhouette; the brass gives the descending camera something to catch light on, which
+is what keeps a locked path from reading as dead footage; and its grain is lightly
+distressed, which reads as real hide faster than a uniform surface does.
+
+The black flight bomber leads the range section instead, where the white studio background
+suits it.
 
 **World:** the VANTOR store's own room, taken from STORE.png. Dark stone, deep shadow, one
 warm bronze light from above.
 
-**Start frame (16:9, 2k):** the jacket hangs on a bronze rail in a dark stone room. The
-camera sits high and close on the collar and upper chest. The pebbled grain reads large.
-The blacked out zip pull with its V catches one bronze edge of light. The wall behind
-recedes into shadow. The world fills the frame edge to edge, with the calm falloff of
-shadow to the left and right of the jacket where the captions will live.
+**Start frame (16:9, 2k):** the jacket hangs on a slim bronze rail in a dark stone room.
+The camera sits high and close on the band collar and the upper chest. The distressed grain
+reads large. The antique brass throat snaps and the top of the brass zip catch one warm
+edge of light. The stone wall behind recedes into shadow. The world fills the frame edge
+to edge, with the calm falloff of shadow to the left and right of the jacket where the
+captions will live.
 
 **Motion:** one continuous shot, no cuts. The camera descends straight down the front of
-the jacket, past the collar, down the zip line, past the flap chest pockets, easing back
-as it falls so more of the jacket enters frame. It passes through the soft edge of the
-light beam on the way, a brief bloom across the lens. The leather stays alive, shifting
-very slightly as though the air moved. Dust drifts through the beam throughout.
+the jacket, past the collar tab, down the brass zip line, past the twin zip chest pockets,
+easing back as it falls so more of the jacket enters frame. It passes through the soft edge
+of the light beam on the way, a brief bloom across the lens. The leather stays alive,
+shifting very slightly as though the air moved. Dust drifts through the beam throughout.
 
-**The ending, planned first:** the whole jacket hanging centred and still, bronze light
-raking from the upper left, deep shadow around it, generous empty margin above and below
-the garment so the fixed header never crowds the shoulders and a cover crop on a short
-window never eats the hem. Verified with the header mocked over it at a wide window and
-a short one before approval.
+**The ending, planned first:** the whole jacket hanging centred and still, warm light raking
+from the upper left, the brass catching at the collar and the hem, deep shadow around it,
+generous empty margin above and below the garment so the fixed header never crowds the
+shoulders and a cover crop on a short window never eats the hem. Verified with the header
+mocked over it at a wide window and a short one before approval.
 
 **Laws check:** descends, so down reads as down (1). One subject, one motion, no cuts (2).
 Path locked, leather and dust alive (3). Ending written first and composed (4). Leather is
@@ -94,10 +105,10 @@ is 12vh here.
 
 | Band | Range (starting point) | Footage moment | Copy (verbatim) | Entrance |
 |---|---|---|---|---|
-| 1 | 0.00 to 0.20 | High and close on the collar, grain large, one bronze edge on the pull | **"Nobody grows into bold."** / "You put it on." | Drift-down, echoing the camera's fall. Opens settled via the one time load ramp. |
-| 2 | 0.25 to 0.45 | Descending the zip line, grain filling the frame | **"Grain you can read across a room."** / "Genuine leather. Heavy hand. No plastic shine." | Grid snap-align, characters sliding into place in reading order, echoing the zip teeth passing |
-| 3 | 0.50 to 0.68 | Past the chest pockets, camera easing back, dust in the beam | **"The mark is small on purpose."** / "One V, on the pull. That is the whole logo." | Blur-to-sharp, echoing the beam's bloom clearing |
-| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Six jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
+| 1 | 0.00 to 0.20 | High and close on the band collar, grain large, brass catching one edge | **"Nobody grows into bold."** / "You put it on." | Drift-down, echoing the camera's fall. Opens settled via the one time load ramp. |
+| 2 | 0.25 to 0.45 | Descending the brass zip line, grain filling the frame | **"Grain you can read across a room."** / "Genuine leather. Heavy hand. No plastic shine." | Grid snap-align, characters sliding into place in reading order, echoing the zip teeth passing |
+| 3 | 0.50 to 0.68 | Past the twin zip pockets, camera easing back, dust in the beam | **"The mark is small on purpose."** / "One V, on the snap. That is the whole logo." | Blur-to-sharp, echoing the beam's bloom clearing |
+| 4 | 0.74 to 1.00 | The jacket at rest, whole, lit from upper left | **"Built for a bolder you."** / "Eight jackets. One mark. Made responsibly." / CTA: **"See the range"** | Word-by-word rise into a staged settle: headline, then subline, then the CTA row |
 
 Band 2 is placed deliberately. It answers the objection buyers named first, that the
 leather is fake, at the exact moment the footage is showing them the grain.
@@ -108,7 +119,7 @@ For phones, portrait tablets, landscape phones and reduced motion. Composed over
 ending frame.
 
 - Headline: **"Built for a bolder you."**
-- Subline: **"Six jackets. One mark. Genuine leather, made responsibly."**
+- Subline: **"Eight jackets. One mark. Genuine leather, made responsibly."**
 - CTA: **"See the range"**
 
 ## 7. The below-fold outline
@@ -117,16 +128,18 @@ Every section funnels to the single anchor `#enquire`.
 
 **a. The range**
 - Kicker: `01 / THE RANGE`
-- Headline: **"Six jackets. No filler."**
-- Lede: "Every one of them is cut oversized, lined, and finished with the same mark."
-- Six cards, each using the owner's real photographs, no generated stand ins:
+- Headline: **"Eight jackets. No filler."**
+- Lede: "Every one of them is lined, finished with the same mark, and cut to be worn hard."
+- Eight cards, each using the owner's real photographs, no generated stand ins:
+  - **The Cafe Racer** / "Brown. Band collar, twin zip chest pockets, antique brass throughout."
   - **The Flight Bomber** / "Black. Pebbled grain, flap chest pockets, blacked out hardware."
   - **The Trucker** / "Black. Cropped, patch pockets, V snaps down the placket."
+  - **The Crop Bomber** / "Black. Crinkled grain, elasticated cuffs and hem."
   - **The Bomber** / "Brown. Spread collar, two way zip, VANTOR on the pull."
-  - **The Moto** / "Brown. Notch lapels, snap down, zip chest pocket."
   - **The Bomber, Oxblood** / "Burgundy. Spread collar, centre zip, V snaps at the cuff."
+  - **The Moto** / "Brown. Notch lapels, snap down, zip chest pocket."
   - **The Moto, Olive** / "Olive. Asymmetric zip, epaulettes, elasticated hem."
-- Every card gets an image, all six treated identically. A card without one would read as
+- Every card gets an image, all eight treated identically. A card without one would read as
   a hole to a first time visitor.
 
 **b. The make** (the proof, answering objection one)
@@ -178,7 +191,7 @@ Every section funnels to the single anchor `#enquire`.
 - Kicker: `07`
 - Headline: **"Built for a bolder you."**
 - Lede: "Tell us which one caught your eye and we will come back to you."
-- Form: Name, Email, Which jacket (a select listing all six), Message.
+- Form: Name, Email, Which jacket (a select listing all eight), Message.
 - Button: **"Send it"**
 - Success state: **"Got it. We will come back to you shortly."**
 - **Form handling:** a JavaScript success state, because there is no backend on a static
