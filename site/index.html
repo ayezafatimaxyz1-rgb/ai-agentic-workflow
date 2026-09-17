@@ -563,14 +563,24 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 "use strict";
 
 /* ============================================================
-   PRICES. Fill these in and they appear on every card.
-   Leave a value empty and that card simply shows no price.
-   Example: 'cafe-racer': '£340'
+   PRICES, in AED. These are PLACEHOLDERS, set by eye against what
+   comparable premium leather jackets sell for, so the page has real
+   numbers to argue around. Change any of them here and the card
+   updates. Empty means that card shows no price at all.
    ============================================================ */
+var CURRENCY = 'AED';
 var PRICES = {
-  'cafe-racer':'', 'vintage-bomber':'', 'flight-bomber':'', 'trucker':'',
-  'crop-bomber':'', 'bomber':'', 'bomber-oxblood':'', 'moto':'',
-  'moto-olive':'', 'cafe-racer-bone':'', 'field-bomber':''
+  'cafe-racer':'1,290',
+  'vintage-bomber':'1,390',
+  'flight-bomber':'1,490',
+  'trucker':'1,190',
+  'crop-bomber':'1,190',
+  'bomber':'1,290',
+  'bomber-oxblood':'1,290',
+  'moto':'1,390',
+  'moto-olive':'1,390',
+  'cafe-racer-bone':'1,290',
+  'field-bomber':'1,290'
 };
 
 var RANGE = [
@@ -608,7 +618,7 @@ var smoothstep = function(p,e0,e1){ var t=clamp((p-e0)/(e1-e0),0,1); return t*t*
 (function(){
   var grid = $('#rangegrid'), sel = $('#fjacket'), html = '', opts = '';
   RANGE.forEach(function(r,i){
-    var slug=r[0], name=r[1], desc=r[2], price=PRICES[slug]||'';
+    var slug=r[0], name=r[1], desc=r[2], price=PRICES[slug]?(CURRENCY+' '+PRICES[slug]):'';
     html += '<article class="card rise">'
          +    '<div class="shot"><img src="assets/products/'+slug+'.webp" alt="'+name+', '+desc.replace(/"/g,'')+'" '
          +      (i<3?'':'loading="lazy" ')+'width="1000" height="1000"></div>'

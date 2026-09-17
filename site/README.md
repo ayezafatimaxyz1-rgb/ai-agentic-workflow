@@ -19,8 +19,11 @@ Then open the localhost address it prints.
 
 ## Changing things
 
-**Prices.** Open `index.html` and find `var PRICES`. Fill in any of the eleven
-and the price appears on that card. Leave one empty and that card shows none.
+**Prices.** Open `index.html` and find `var PRICES`. The eleven prices there are
+placeholders in AED, set by eye against what comparable premium jackets sell for,
+so the page had real numbers to argue around. Change any of them and that card
+updates. Leave one empty and it shows no price. `CURRENCY` just above changes the
+prefix if you sell in something else.
 
 **Where the form goes.** Find `ACTION_EMAIL` and `ACTION_POST`, near the bottom.
 Set `ACTION_EMAIL` to an inbox and the send button opens the visitor's email app
