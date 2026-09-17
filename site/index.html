@@ -703,11 +703,32 @@ video.addEventListener('seeked', function(){
 });
 video.addEventListener('error', function(){ seekBusy = false; pendingTime = null; failVideo(); });
 
+/* Both V drawings stroke with vector-effect:non-scaling-stroke, which keeps the
+   line an even hairline however the SVG is stretched. The catch is that the dash
+   pattern is then measured in SCREEN pixels while getTotalLength() reports
+   viewBox units, so a dashoffset of getTotalLength() leaves part of the stroke
+   showing before anyone has scrolled or pressed. Measure the path as the screen
+   actually draws it instead, and re-measure when the box changes size. */
+function screenLength(path){
+  var total = path.getTotalLength();
+  var m = path.getScreenCTM();
+  if(!m || !total) return total || 1;
+  var len = 0, prev = null, n = 72;
+  for(var i = 0; i <= n; i++){
+    var p = path.getPointAtLength(total * i / n).matrixTransform(m);
+    if(prev) len += Math.sqrt((p.x-prev.x)*(p.x-prev.x) + (p.y-prev.y)*(p.y-prev.y));
+    prev = p;
+  }
+  return len || total;
+}
+
 /* ---------- the V signature, delta gated ---------- */
 var vLen = 0, lastV = -1;
 function initV(){
-  try { vLen = vL.getTotalLength(); } catch(e){ vLen = 100; }
-  [vL,vR].forEach(function(p){ p.style.strokeDasharray = vLen; p.style.strokeDashoffset = vLen; });
+  try { vLen = screenLength(vL); } catch(e){ vLen = 1200; }
+  [vL,vR].forEach(function(p){ p.style.strokeDasharray = vLen; });
+  lastV = -1;
+  drawV(shown);
 }
 function drawV(p){
   if(Math.abs(p - lastV) < 0.004) return;
@@ -902,9 +923,12 @@ if('IntersectionObserver' in window){
 /* ---------- the one interactive moment: press and hold ---------- */
 var holder = $('#holder'), hdraw = $('#hdraw'), htip = $('#htip'), moment = $('#moment');
 var hLen = 0, holding = false, hp = 0, hRaf = null, hDone = false, lastHp = -1;
-try { hLen = hdraw.getTotalLength(); } catch(e){ hLen = 200; }
-hdraw.style.strokeDasharray = hLen;
-hdraw.style.strokeDashoffset = hLen;
+function measureHold(){
+  try { hLen = screenLength(hdraw); } catch(e){ hLen = 520; }
+  hdraw.style.strokeDasharray = hLen;
+  lastHp = -1;
+  paintHold();
+}
 
 function paintHold(){
   if(Math.abs(hp - lastHp) < 0.005) return;
@@ -930,6 +954,8 @@ function holdTick(){
   if((holding && hp < 1) || (!holding && hp > 0)){ hRaf = requestAnimationFrame(holdTick); }
   else { hRaf = null; }
 }
+measureHold();
+
 function holdStart(e){ if(hDone) return; if(e && e.cancelable) e.preventDefault();
   holding = true; if(hRaf === null) hRaf = requestAnimationFrame(holdTick); }
 function holdEnd(){ holding = false; if(hRaf === null && hp > 0) hRaf = requestAnimationFrame(holdTick); }
@@ -997,6 +1023,16 @@ function onReducedMotion(e){
 if(rmq.addEventListener) rmq.addEventListener('change', onReducedMotion);
 else if(rmq.addListener) rmq.addListener(onReducedMotion);
 if(rmq.matches) pinToFinalStates();
+
+/* a resize changes how long both paths are on screen, so re-measure and repaint */
+var reflowT = null;
+window.addEventListener('resize', function(){
+  clearTimeout(reflowT);
+  reflowT = setTimeout(function(){
+    measureHold();
+    if(scrubOn){ initV(); }
+  }, 180);
+});
 
 applyHeroMode();
 })();
