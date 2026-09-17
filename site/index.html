@@ -246,8 +246,17 @@ a{color:inherit}
 /* 3: the lights come up, which is a change across the whole frame, so it fades */
 .stageimg[data-stage="3"]{opacity:var(--o,0)}
 
-/* 4: the jackets go up one after another, from the far end of each rail forward */
-.stageimg[data-stage="4"]{opacity:1;clip-path:inset(0 var(--x,50%) 0 var(--x,50%))}
+/* 4: the jackets, hung one at a time.
+   Each is the finished photograph clipped to that one jacket's place on the
+   rail, and its bottom edge drops from the rail downward, so the garment is
+   lowered onto the rail rather than fading in. They are all the same image
+   file, so the browser decodes it once and every one lines up exactly with the
+   empty room underneath. */
+.hangers{position:absolute;inset:0;pointer-events:none}
+.hangers b{position:absolute;inset:0;display:block;
+  background:url('assets/room/5-full.jpg') center/cover no-repeat;
+  clip-path:inset(var(--t) var(--r) var(--b) var(--l));
+  will-change:clip-path}
 
 /* ============================================================
    THE DETAIL VIEW
@@ -512,7 +521,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
       <div class="stageimg" data-stage="1" style="background-image:url('assets/room/2-posts.jpg')"></div>
       <div class="stageimg" data-stage="2" style="background-image:url('assets/room/3-rails.jpg')"></div>
       <div class="stageimg" data-stage="3" style="background-image:url('assets/room/4-fitted.jpg')"></div>
-      <div class="stageimg" data-stage="4" style="background-image:url('assets/room/5-full.jpg')"></div>
+      <div class="hangers" id="hangers"></div>
     </div>
 
     <div class="scrim" aria-hidden="true"></div>
@@ -840,10 +849,66 @@ var STAGE_BUILD = [
   null,                 /* 0 the room itself */
   [0.26, 0.46],         /* 1 brass grows up */
   [0.46, 0.60],         /* 2 rails span out */
-  [0.60, 0.74],         /* 3 lights come up */
-  [0.76, 0.96]          /* 4 jackets go up one by one */
+  [0.60, 0.72],         /* 3 lights come up */
+  null                  /* 4 replaced by the hangers below */
 ];
-var lastR = [];
+
+/* Where each jacket hangs, measured by differencing the empty room against the
+   finished one: each rail runs 13.4 to 34.5 percent of the width on the left and
+   65.5 to 86.8 on the right, in two rows between 19 and 63 percent of the height.
+   They are hung from the far end of both rails forward, alternating sides, which
+   is the order a person would actually work in. */
+var JACKETS = (function(){
+  var L = [13.4, 34.5], R = [65.5, 86.8], ROW = [[19.0, 41.0], [41.0, 63.0]];
+  function col(side, i){                    /* i: 0 nearest camera, 2 furthest */
+    var w = (side[1]-side[0]) / 3;
+    return [side[0] + i*w, side[0] + (i+1)*w];
+  }
+  var order = [
+    [L,2,0],[R,0,0],[L,2,1],[R,0,1],
+    [L,1,0],[R,1,0],[L,1,1],[R,1,1],
+    [L,0,0],[R,2,0],[L,0,1]
+  ];
+  return order.map(function(o){
+    var side = o[0], ci = o[1], ri = o[2];
+    /* the right rail runs the other way, so its far end is its low index */
+    var c = col(side, side === L ? ci : ci);
+    return { l:c[0], r:100-c[1], t:ROW[ri][0], b:100-ROW[ri][1] };
+  });
+})();
+
+var hangEls = [];
+function buildHangers(){
+  if(hangEls.length) return;
+  $('#hangers').innerHTML = JACKETS.map(function(){ return '<b></b>'; }).join('');
+  hangEls = $$('#hangers b');
+  for(var i=0;i<hangEls.length;i++){
+    var j = JACKETS[i], e = hangEls[i];
+    e.style.setProperty('--l', j.l.toFixed(2)+'%');
+    e.style.setProperty('--r', j.r.toFixed(2)+'%');
+    e.style.setProperty('--t', j.t.toFixed(2)+'%');
+    e.style.setProperty('--b', '100%');     /* closed: nothing showing */
+  }
+}
+
+var HANG_FROM = 0.74, HANG_TO = 0.99;
+var lastB = [];
+function drawHangers(p){
+  var n = hangEls.length;
+  for(var i=0;i<n;i++){
+    /* each jacket owns its own slice of the beat, with a little overlap so the
+       run reads as continuous rather than as eleven separate events */
+    var span = (HANG_TO - HANG_FROM) / n;
+    var a0 = HANG_FROM + i*span;
+    var k = smoothstep(p, a0, a0 + span*1.6);
+    var j = JACKETS[i];
+    var bottom = 100 - (j.t + (100 - j.b - j.t) * k);
+    var v = bottom.toFixed(2) + '%';
+    if(lastB[i] !== v){ lastB[i] = v; hangEls[i].style.setProperty('--b', v); }
+  }
+}
+
+var lastR = [];var lastR = [];
 
 /* How far open a sideways wipe is, as the inset from each edge.
    In this one point perspective the centre of the frame is the far END WALL,
@@ -859,6 +924,7 @@ function wipeInset(r){
 function drawRoom(p){
   for(var i=1;i<stageEls.length;i++){
     var w = STAGE_BUILD[i];
+    if(!w) continue;
     var r = smoothstep(p, w[0], w[1]);
     var el = stageEls[i], v;
     if(i === 1){                       /* grows upward out of the floor */
@@ -876,16 +942,23 @@ function drawRoom(p){
 
 function drawJourney(p){
   /* ACT 1, the street, pushed toward the door */
-  var t1 = clamp(p/0.26, 0, 1);
+  var t1 = clamp(p/0.20, 0, 1);
   put(streetImg,'transform','scale('+(1+t1*0.62).toFixed(4)+')','si');
-  put(street,'opacity',(1 - smoothstep(p,0.16,0.26)).toFixed(3),'so');
+  put(street,'opacity',(1 - smoothstep(p,0.10,0.19)).toFixed(3),'so');
   put(streetVeil,'opacity',(0.3+t1*0.7).toFixed(3),'sv');
 
-  /* ACT 2, the room drops into place, then builds itself */
-  var drop = smoothstep(p, 0.12, 0.26);
-  put(room,'opacity',drop.toFixed(3),'ro');
-  put(room,'transform','translateY(' + ((1-drop) * -16).toFixed(2) + '%)','rt');
+  /* ACT 2, the room slams down into place, then builds itself.
+     It falls from well above the frame at a larger scale, so it reads as the
+     room arriving around you rather than a panel sliding in. The scale settles
+     a beat after the fall lands, which is what gives it the weight. */
+  var fall   = smoothstep(p, 0.10, 0.23);
+  var settle = smoothstep(p, 0.18, 0.30);
+  put(room,'opacity',smoothstep(p,0.10,0.17).toFixed(3),'ro');
+  put(room,'transform',
+    'translateY(' + ((1-fall) * -62).toFixed(2) + '%) ' +
+    'scale(' + (1 + (1-settle) * 0.18).toFixed(4) + ')', 'rt');
   drawRoom(p);
+  drawHangers(p);
 
   var cueEl = $('#cue');
   if(cueEl) put(cueEl,'opacity',(1 - smoothstep(p,0.72,0.84)).toFixed(3),'cue');
@@ -942,6 +1015,7 @@ if('IntersectionObserver' in window){
 var heroInit = false;
 function initHeroOnce(){
   if(heroInit) return; heroInit = true;
+  buildHangers();
   loadStart = performance.now();
   /* the later stages are the heaviest, so warm them before the visitor arrives */
   ['assets/room/2-posts.jpg','assets/room/3-rails.jpg',
@@ -956,7 +1030,7 @@ function enableScrub(){
   window.addEventListener('scroll', onScroll, { passive:true });
   bands.forEach(function(b2){ b2.op = -1; b2.k = -1; });
   lastVal = {};
-  lastR = [];
+  lastR = []; lastB = [];
   unpinFinalStates();
   updateCaptions(heroProgress());
   onScroll();
@@ -991,7 +1065,14 @@ if('IntersectionObserver' in window){
          siblings do not carry their delay into every hover for ever */
       setTimeout(function(){ el.classList.add('done'); }, 1400);
     });
-  },{ threshold:0.14, rootMargin:'0px 0px -8% 0px' });
+  },{
+    /* Threshold is a fraction of the ELEMENT, not of the viewport, so a tall
+       section can never satisfy it: the range grid is over 6000px on a phone,
+       where 14 percent is taller than the screen, so it never fired and every
+       card stayed at opacity 0. An entire section of the site was invisible on
+       mobile. Trigger on any intersection instead, pulled in from the bottom so
+       it still fires as the section arrives rather than the instant it peeks. */
+    threshold: 0, rootMargin: '0px 0px -12% 0px' });
   $$('section').forEach(function(s){ io.observe(s); });
 } else {
   $$('section').forEach(function(s){ s.classList.add('in','done'); });
