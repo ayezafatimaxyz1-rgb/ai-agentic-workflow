@@ -170,7 +170,11 @@ a{color:inherit}
 
 /* ---------- static hero (the five gates) ---------- */
 .static-hero{display:none;position:absolute;inset:0;z-index:5;
-  padding:0 var(--gutter);place-items:center;text-align:center}
+  padding:0 var(--gutter);place-items:end center;text-align:center;
+  padding-bottom:clamp(38px,9vh,90px)}
+.static-hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(9,7,5,.62) 0%,rgba(9,7,5,.18) 34%,rgba(9,7,5,.72) 72%,rgba(9,7,5,.93) 100%)}
+.static-hero > div{position:relative}
 .static-hero h1{font-family:var(--display);font-weight:400;margin:0;
   font-size:clamp(34px,9vw,62px);line-height:1.08;text-shadow:var(--tshadow)}
 .static-hero p{margin:20px auto 0;max-width:30ch;color:var(--text-secondary);text-shadow:var(--tshadow)}
@@ -629,7 +633,8 @@ var GATES = [
 ];
 
 var VIDEO_URL = 'assets/hero-scrub.mp4';
-var POSTER_URL = 'assets/hero-poster.jpg';
+var POSTER_URL = 'assets/hero-poster.jpg';   /* 16:9, behind the scrub */
+var STILL_URL  = 'assets/hero-still.jpg';    /* portrait, for the gated static hero */
 var VIDEO_BYTES = 6000000;   /* real byte size, filled in when the film lands */
 
 var video = $('#hero'), stage = $('#stage'), ring = $('#ring'),
@@ -823,6 +828,7 @@ function initHeroOnce(){
   if(heroInit) return; heroInit = true;
   initV();
   posterLayer.style.backgroundImage = "url('" + POSTER_URL + "')";
+  stillSet = false;   /* the wide poster owns the layer again */
   var img = new Image();
   img.onload = startBlobFetch;
   img.onerror = startBlobFetch;
@@ -836,6 +842,7 @@ var scrubOn = false;
 function enableScrub(){
   if(scrubOn) return; scrubOn = true;
   initHeroOnce();
+  posterLayer.style.backgroundImage = "url('" + POSTER_URL + "')";
   window.addEventListener('scroll', onScroll, { passive:true });
   bands.forEach(function(b){ b.op = -1; b.k = -1; });
   lastV = -1;
@@ -843,7 +850,16 @@ function enableScrub(){
   updateCaptions(heroProgress());
   onScroll();
 }
+var stillSet = false;
+function showStaticStill(){
+  /* The static hero is a designed layout, not an apology, so it needs its own
+     image. This is the portrait crop, a fraction of the video's weight, and the
+     video and the wide poster are never requested on these screens. */
+  if(stillSet) return; stillSet = true;
+  posterLayer.style.backgroundImage = "url('" + STILL_URL + "')";
+}
 function disableScrub(){
+  showStaticStill();
   if(!scrubOn) return; scrubOn = false;
   window.removeEventListener('scroll', onScroll);
   if(rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
@@ -894,12 +910,18 @@ function paintHold(){
   htip.style.transform = 'scale(' + (0.6 + smoothstep(hp,0.86,1)*0.7).toFixed(3) + ')';
 }
 function holdTick(){
+  /* Releasing early eases the progress back down, it never snaps. But once the
+     visitor has completed it, the V stays drawn: they earned it, and watching it
+     retreat on release reads as the page undoing their work. */
+  if(hDone){ hp = 1; paintHold(); hRaf = null; return; }
   hp = holding ? Math.min(1, hp + 0.016) : Math.max(0, hp - 0.022);
   paintHold();
-  if(hp >= 1 && !hDone){
+  if(hp >= 1){
     hDone = true;
     holder.classList.add('complete');
     moment.classList.add('holder-done');
+    hRaf = null;
+    return;
   }
   if((holding && hp < 1) || (!holding && hp > 0)){ hRaf = requestAnimationFrame(holdTick); }
   else { hRaf = null; }
