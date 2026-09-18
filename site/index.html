@@ -185,6 +185,17 @@ a{color:inherit}
 #b3 .soft{position:absolute;inset:0;filter:blur(11px);opacity:calc(1 - var(--k,0));pointer-events:none}
 #b3 .sharp{opacity:var(--k,0)}
 /* entrance (e) staged settle, band 4: three arrivals in one band */
+/* The closing beat is the brand lockup: the mark lands, the wordmark sets
+   under it, then the line and the button. Tracking here is a wordmark's, wider
+   than the sentence headings above it, which is what makes it read as a mark
+   rather than as one more caption. */
+#b4 .b4mark{--km:clamp(0,var(--k,0)*3.6,1);opacity:var(--km);
+  width:clamp(30px,4.2vw,48px);height:auto;display:block;margin:0 auto 16px;
+  transform:translateY(calc((1 - var(--km)) * -16px))}
+#b4 h2{letter-spacing:.075em;text-transform:uppercase}
+/* the uppercase is the mark's, not the word's: some screen readers spell a CSS
+   uppercased string letter by letter, and .vh is the copy they actually read */
+#b4 h2 .vh{text-transform:none;letter-spacing:normal}
 #b4 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);
   transform:translateY(calc((1 - var(--kc)) * 20px))}
 #b4 .sub{--ks:clamp(0,(var(--k,0) - .60)*3.6,1);opacity:var(--ks);
@@ -241,7 +252,7 @@ a{color:inherit}
    rails but keeps every jacket on screen, and move the copy off the room so the
    two stop fighting for the same space. */
 @media (max-aspect-ratio: 3/4){
-  .room-frame{width:132%;margin-top:9vh}
+  .room-frame{width:132%;margin-top:14vh}
   /* A 16:9 room on a tall phone letterboxes whatever you do, and widening it
      any further starts throwing the end jackets off the sides. So the frame is
      dropped to sit under the copy rather than floating in the middle of the
@@ -262,9 +273,10 @@ a{color:inherit}
    screen this has to hold. */
 @media (max-aspect-ratio: 3/4) and (max-height: 740px){
   .band,#b3,#b4{padding-top:14vh}
-  .room-frame{margin-top:21vh}
+  .room-frame{margin-top:30vh}
   .band .sub{margin-top:14px}
   #b4 .row{margin-top:18px}
+  #b4 .b4mark{width:26px;margin-bottom:10px}
 }
 
 .stageimg{position:absolute;inset:0;background-size:cover;background-position:center;
@@ -643,8 +655,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 
     <div class="band" id="b4" data-a="0.80" data-b="1">
       <div class="inner">
-        <h2 data-split="word"><span class="vh">Eleven jackets.</span><span class="vis" aria-hidden="true">Eleven jackets.</span></h2>
-        <p class="sub">Hung one at a time.</p>
+        <svg class="b4mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 5.6l7.4 2.4L16 27l5.6-19L29 5.6 16 30.4z" fill="#C08A52"/></svg>
+        <h2 data-split="word"><span class="vh">VANTOR jackets</span><span class="vis" aria-hidden="true">VANTOR jackets</span></h2>
+        <p class="sub">Built for a bolder you.</p>
         <div class="row"><a class="btn btn-solid" href="#range">See them all</a></div>
       </div>
     </div>
