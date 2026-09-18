@@ -1531,13 +1531,27 @@ if(rmq.addEventListener) rmq.addEventListener('change', onReducedMotion);
 else if(rmq.addListener) rmq.addListener(onReducedMotion);
 if(rmq.matches) pinToFinalStates();
 
-/* a resize changes how long both paths are on screen, so re-measure and repaint */
+/* A resize changes how much of the hero is on screen, so both paths repaint.
+   The hold is measured in screen pixels and has to be measured again. The
+   wardrobe is laid out in percentages of its own frame and needs no measuring,
+   but every drive write is delta gated against a cache, so without clearing
+   that cache a rotation repaints nothing and the frame is left holding values
+   computed for the old shape. This used to call initV, which went with the V
+   signature when the hero became the wardrobe: it threw a ReferenceError on
+   every rotation, caught by rotating the phone under the protocol rather than
+   by any static reading of the file. */
 var reflowT = null;
 window.addEventListener('resize', function(){
   clearTimeout(reflowT);
   reflowT = setTimeout(function(){
     measureHold();
-    if(scrubOn){ initV(); }
+    if(scrubOn){
+      lastVal = {};
+      lastR = []; lastHang = []; lastDrawer = []; lastFlash = ''; lastRail = '';
+      bands.forEach(function(b2){ b2.op = -1; b2.k = -1; });
+      updateCaptions(heroProgress());
+      onScroll();
+    }
   }, 180);
 });
 
